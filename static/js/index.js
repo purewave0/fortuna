@@ -1,21 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
-    // 4th octave in scientific pitch notation
-    const noteFrequencies = {
-        'c':  261.63,
-        'c#': 277.18,
-        'd':  293.66,
-        'd#': 311.13,
-        'e':  329.63,
-        'f':  349.23,
-        'f#': 369.99,
-        'g':  392,
-        'g#': 415.3,
-        'a':  440,
-        'a#': 466.16,
-        'b':  493.88,
+    function get12EqualTemperamentFromA4(a4Frequency) {
+        // in 12 equal temperament, adjacent semitones have a ratio of the 12th root of
+        // 2 (or 2^(1/12)) between them. to find the next semitone, we multiply the
+        // current pitch by this ratio; likewise, to find the previous semitone, we
+        // divide by this ratio.
+        const SEMITONE_RATIO = 2**(1/12)
+
+        return {
+            'c':  a4Frequency / (SEMITONE_RATIO**9),
+            'c#': a4Frequency / (SEMITONE_RATIO**8),
+            'd':  a4Frequency / (SEMITONE_RATIO**7),
+            'd#': a4Frequency / (SEMITONE_RATIO**6),
+            'e':  a4Frequency / (SEMITONE_RATIO**5),
+            'f':  a4Frequency / (SEMITONE_RATIO**4),
+            'f#': a4Frequency / (SEMITONE_RATIO**3),
+            'g':  a4Frequency / (SEMITONE_RATIO**2),
+            'g#': a4Frequency / (SEMITONE_RATIO),
+            'a':  a4Frequency,
+            'a#': a4Frequency * (SEMITONE_RATIO),
+            'b':  a4Frequency * (SEMITONE_RATIO**2),
+        };
     }
+
+    // the frequency of A4 (A in the 4th octave, in scientific pitch notation)
+    const tuningOption = document.getElementById('tuning');
+    let currentTuning = Number(tuningOption.value);
+
+    let noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
+    tuningOption.addEventListener('change', () => {
+        currentTuning = Number(tuningOption.value);
+        noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
+
+        if (activeKeys.length > 0) {
+            // replay the same note(s) but with the new tuning
+            replayActiveKeys();
+        }
+    });
 
     const octaveMultipliers = {
         '1': 0.125,
