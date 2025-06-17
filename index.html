@@ -10,21 +10,59 @@
 
 <body>
     <div id="keyboard">
-        <button class="key white" data-note="c"></button>
-        <button class="key black" data-note="c#"></button>
-        <button class="key white" data-note="d"></button>
-        <button class="key black" data-note="d#"></button>
-        <button class="key white" data-note="e"></button>
-        <button class="key white" data-note="f"></button>
-        <button class="key black" data-note="f#"></button>
-        <button class="key white" data-note="g"></button>
-        <button class="key black" data-note="g#"></button>
-        <button class="key white" data-note="a"></button>
-        <button class="key black" data-note="a#"></button>
-        <button class="key white" data-note="b"></button>
-        <button class="key white" data-note="c" data-octave-multiplier="2"></button>
+        <button class="key white" data-note="c">
+            <span class="note-label"></span>
+        </button>
+        <button class="key black" data-note="c#">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="d">
+            <span class="note-label"></span>
+        </button>
+        <button class="key black" data-note="d#">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="e">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="f">
+            <span class="note-label"></span>
+        </button>
+        <button class="key black" data-note="f#">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="g">
+            <span class="note-label"></span>
+        </button>
+        <button class="key black" data-note="g#">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="a">
+            <span class="note-label"></span>
+        </button>
+        <button class="key black" data-note="a#">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="b">
+            <span class="note-label"></span>
+        </button>
+        <button class="key white" data-note="c" data-octave-multiplier="2">
+            <span class="note-label"></span>
+        </button>
     </div>
     <script src="/static/js/index.js"></script>
+
+    <div id="options">
+        <div id="labels-option" class="option">
+            <label for="note-labels">Note labels:</label>
+            <select id="note-labels">
+                <option value="none">No labels</option>
+                <option value="c">C, D, E…</option>
+                <option value="do-si">Do, Re, Mi…, Si</option>
+                <option value="do-ti">Do, Re, Mi…, Ti</option>
+            </select>
+        </div>
+    </div>
 </body>
 
 </html>

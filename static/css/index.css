@@ -7,11 +7,16 @@ body {
     --white-key-color: white;
     --white-key-hover-color: #bbccff;
     --white-key-active-color: #4444ff;
+    --white-key-label-color: black;
 
     --black-key-color: black;
     --black-key-hover-color: #001177;
     --black-key-active-color: #1111aa;
+    --black-key-label-color: white;
 }
+
+
+/* -- keyboard -- */
 
 #keyboard {
     width: fit-content;
@@ -28,6 +33,9 @@ body {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     transition: background-color ease 0.05s;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
 
 .key.white {
@@ -92,3 +100,22 @@ body {
 }
 
 /* no black b# key */
+
+.key > .note-label {
+    margin-bottom: 32px;
+    font-size: 20pt;
+    color: var(--white-key-label-color);
+}
+
+.key.black > .note-label {
+    font-size: 13pt;
+    color: var(--black-key-label-color);
+}
+
+
+/* -- options -- */
+#options {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+}
