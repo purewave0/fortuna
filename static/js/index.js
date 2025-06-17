@@ -109,13 +109,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const noteLabelsOption = document.getElementById('note-labels');
     noteLabelsOption.addEventListener('change', () => {
-        switch (noteLabelsOption.value) {
-            case 'none':
-                clearNoteLabels();
-                break;
-            default:
-                setNoteLabels(noteLabels[noteLabelsOption.value]);
-                break;
+        if (noteLabelsOption.value === 'none') {
+            clearNoteLabels();
+        } else {
+            setNoteLabels(noteLabels[noteLabelsOption.value]);
+        }
+    });
+
+    function replayActiveNote() {
+        const key = activeNote.key;
+        key.click();  // off
+        key.click();  // on
+    }
+
+    const octaveOption = document.getElementById('octave');
+    octaveOption.addEventListener('change', () => {
+        currentOctave = Number(octaveOption.value);
+        if (activeNote) {
+            // replay the same note but with the new octave
+            replayActiveNote();
         }
     });
 });
