@@ -10,49 +10,53 @@
 
 <body>
     <div id="keyboard">
-        <button class="key white" data-note="c">
+        <button class="key white" data-note="c" id="c">
             <span class="note-label"></span>
         </button>
-        <button class="key black" data-note="c#">
+        <button class="key black" data-note="c#" id="c#">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="d">
+        <button class="key white" data-note="d" id="d">
             <span class="note-label"></span>
         </button>
-        <button class="key black" data-note="d#">
+        <button class="key black" data-note="d#" id="d#">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="e">
+        <button class="key white" data-note="e" id="e">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="f">
+        <button class="key white" data-note="f" id="f">
             <span class="note-label"></span>
         </button>
-        <button class="key black" data-note="f#">
+        <button class="key black" data-note="f#" id="f#">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="g">
+        <button class="key white" data-note="g" id="g">
             <span class="note-label"></span>
         </button>
-        <button class="key black" data-note="g#">
+        <button class="key black" data-note="g#" id="g#">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="a">
+        <button class="key white" data-note="a" id="a">
             <span class="note-label"></span>
         </button>
-        <button class="key black" data-note="a#">
+        <button class="key black" data-note="a#" id="a#">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="b">
+        <button class="key white" data-note="b" id="b">
             <span class="note-label"></span>
         </button>
-        <button class="key white" data-note="c" data-octave-multiplier="2">
+        <button class="key white" data-note="c" data-octave-multiplier="2" id="c2">
             <span class="note-label"></span>
         </button>
     </div>
-    <script src="/static/js/index.js"></script>
 
     <div id="options">
+        <div id="mode-option" class="option">
+            <label for="mode">Two-voices mode</label>
+            <input id="mode" type="checkbox">
+        </div>
+
         <div id="labels-option" class="option">
             <label for="note-labels">Note labels:</label>
             <select id="note-labels">
@@ -76,6 +80,8 @@
             </select>
         </div>
     </div>
+
+    <script src="/static/js/index.js"></script>
 </body>
 
 </html>

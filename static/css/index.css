@@ -6,6 +6,7 @@ body {
 
     --white-key-color: white;
     --white-key-hover-color: #bbccff;
+    /* TODO: colour by position in two-voices mode? e.g. first = blue, second = green */
     --white-key-active-color: #4444ff;
     --white-key-label-color: black;
 
