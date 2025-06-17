@@ -52,6 +52,7 @@ for (const key of keys) {
         if (activeNote) {
             // TODO: add polyphonic mode
             activeNote.oscillator.stop();
+            activeNote.key.classList.remove('active');
 
             const pressedActiveNote = (
                 activeNote.name === key.dataset.note
@@ -70,10 +71,13 @@ for (const key of keys) {
             * keyOctaveMultiplier
         );
 
+        key.classList.add('active');
+
         activeNote = {
             name: key.dataset.note, 
             oscillator: playNote(frequency),
             keyOctaveMultiplier: keyOctaveMultiplier,
+            key: key,
         }
     });
 }

@@ -1,4 +1,94 @@
-.key {
-    height: 128px;
-    width: 40px;
+body {
+    --white-key-width: 80px;
+    --black-key-left-offset: calc(var(--white-key-width) / 5);   /* slight right bias */
+    --black-key-center-offset: calc(var(--white-key-width) / 4); /* centered */
+    --black-key-right-offset: calc(var(--white-key-width) / 3);  /* slight left bias */
+
+    --white-key-color: white;
+    --white-key-hover-color: #bbccff;
+    --white-key-active-color: #4444ff;
+
+    --black-key-color: black;
+    --black-key-hover-color: #001177;
+    --black-key-active-color: #1111aa;
 }
+
+#keyboard {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    height: 300px;
+    position: relative;
+}
+
+.key {
+    width: var(--white-key-width);
+    cursor: pointer;
+    border: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    transition: background-color ease 0.05s;
+}
+
+.key.white {
+    background-color: white;
+    border: 2px solid black;
+    border-width: 4px 2px 4px 2px;
+}
+
+
+.key.white:first-of-type {
+    border-left-width: 4px;
+}
+
+.key.white:last-of-type {
+    border-right-width: 4px;
+}
+
+.key.white:hover {
+    background-color: var(--white-key-hover-color);
+}
+
+.key.white.active {
+    background-color: var(--white-key-active-color);
+}
+
+.key.black {
+    height: 60%;
+    width: calc(var(--white-key-width) / 2);
+    background-color: black;
+    position: absolute;
+    z-index: 2;
+}
+
+.key.black:hover {
+    background-color: var(--black-key-hover-color);
+}
+
+.key.black.active {
+    background-color: var(--black-key-active-color);
+}
+
+.key[data-note="c#"] {
+    left: calc(var(--white-key-width) - var(--black-key-left-offset));
+}
+
+.key[data-note="d#"] {
+    left: calc((var(--white-key-width)*2) - var(--black-key-right-offset));
+}
+
+/* no black e# key */
+
+.key[data-note="f#"] {
+    left: calc((var(--white-key-width)*4) - var(--black-key-left-offset));
+}
+
+.key[data-note="g#"] {
+    left: calc((var(--white-key-width)*5) - var(--black-key-center-offset));
+}
+
+.key[data-note="a#"] {
+    left: calc((var(--white-key-width)*6) - var(--black-key-right-offset));
+}
+
+/* no black b# key */
