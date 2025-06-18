@@ -24,13 +24,44 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    const Options = {
+        TwoVoices: {
+            key: 'two-voices',
+            default: false,
+        },
+        NoteLabels: {
+            key: 'note-labels',
+            default: 'c',
+        },
+        Octave: {
+            key: 'octave',
+            default: 4,
+        },
+        TuningStandard: {
+            key: 'tuning-standard',
+            default: 440,
+        },
+        get(key) {
+            return localStorage.getItem(key);
+        },
+        set(key, value) {
+            localStorage.setItem(key, value);
+        }
+    };
+
+
     // the frequency of A4 (A in the 4th octave, in scientific pitch notation)
     const tuningOption = document.getElementById('tuning');
+    tuningOption.value = (
+        Options.get(Options.TuningStandard.key)
+        || Options.TuningStandard.default
+    );
     let currentTuning = Number(tuningOption.value);
 
     let noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
     tuningOption.addEventListener('change', () => {
         currentTuning = Number(tuningOption.value);
+        Options.set(Options.TuningStandard.key, currentTuning);
         noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
 
         if (activeKeys.length > 0) {
@@ -78,10 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // TODO: tuning system (equal temp., just int., pythagorean(maybe?))
     // TODO: keyboard controls (QWERTY... and, maybe, CDEF... + modifiers)
     // TODO: chord mode?
-    const modeOption = document.getElementById('mode');
-    let isTwoVoices = modeOption.checked;
-    modeOption.addEventListener('change', () => {
-        isTwoVoices = modeOption.checked;
+    const twoVoicesOption = document.getElementById('two-voices');
+    twoVoicesOption.checked = (
+        (Options.get(Options.TwoVoices.key) === 'true')
+        || Options.TwoVoices.default
+    );
+    let isTwoVoices = twoVoicesOption.checked;
+    twoVoicesOption.addEventListener('change', () => {
+        isTwoVoices = twoVoicesOption.checked;
+        Options.set(Options.TwoVoices.key, isTwoVoices);
+
         if (!isTwoVoices && activeKeys.length > 1) {
             // reverting to one-voice mode. turn off the 2nd key
             const secondActiveKey = activeKeys[1];
@@ -92,9 +129,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const octaveOption = document.getElementById('octave');
+    octaveOption.value = (
+        Options.get(Options.Octave.key)
+        || Options.Octave.default
+    );
     let currentOctave = Number(octaveOption.value);
     octaveOption.addEventListener('change', () => {
         currentOctave = Number(octaveOption.value);
+        Options.set(Options.Octave.key, currentOctave);
+
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new octave
             replayActiveKeys();
@@ -172,12 +215,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const noteLabelsOption = document.getElementById('note-labels');
+    noteLabelsOption.value = (
+        Options.get(Options.NoteLabels.key)
+        || Options.NoteLabels.default
+    );
+    if (noteLabelsOption.value === 'none') {
+        clearNoteLabels();
+    } else {
+        setNoteLabels(noteLabels[noteLabelsOption.value]);
+    }
+
     noteLabelsOption.addEventListener('change', () => {
         if (noteLabelsOption.value === 'none') {
             clearNoteLabels();
         } else {
             setNoteLabels(noteLabels[noteLabelsOption.value]);
         }
+
+        Options.set(Options.NoteLabels.key, noteLabelsOption.value);
     });
 
     function replayActiveKeys() {
