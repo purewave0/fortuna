@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
+    // TODO: extract related 12ET data/functionality to an object
+
     function get12EqualTemperamentFromA4(a4Frequency) {
         // in 12 equal temperament, adjacent semitones have a ratio of the 12th root of
         // 2 (or 2^(1/12)) between them. to find the next semitone, we multiply the
         // current pitch by this ratio; likewise, to find the previous semitone, we
         // divide by this ratio.
-        const SEMITONE_RATIO = 2**(1/12)
+        const SEMITONE_RATIO = 2**(1/12);
 
         return {
             'c':  a4Frequency / (SEMITONE_RATIO**9),
@@ -22,6 +24,26 @@ document.addEventListener('DOMContentLoaded', () => {
             'a#': a4Frequency * (SEMITONE_RATIO),
             'b':  a4Frequency * (SEMITONE_RATIO**2),
         };
+    }
+
+    const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+    const scaleLength = notes.length;
+
+    /**
+     * Transpose a note's frequency down by a number of semitones in 12ET.
+     *
+     * @param {number} frequency The frequency in Hert of the note to be transposed.
+     * @param {number} semitones The number of semitones to lower the note.
+     *
+     * @returns {number} The transposed frequency.
+     *
+     * @example
+     * // transpose an A4 (440 Hz) 2 semitones down
+     * transposeDown12EqualTemperament(440, 2);  // returns approx. 391.99 (G4)
+     */
+    function transposeDown12EqualTemperament(frequency, semitones) {
+        const SEMITONE_RATIO = 2**(1/12);
+        return frequency / (SEMITONE_RATIO ** semitones);
     }
 
     const Options = {
@@ -41,6 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
             key: 'tuning-standard',
             default: 440,
         },
+        Transposition: {
+            key: 'transposition',
+            default: 0,
+        },
+
         get(key) {
             return localStorage.getItem(key);
         },
@@ -144,6 +171,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const transpositionOption = document.getElementById('transposition');
+    transpositionOption.value = (
+        Options.get(Options.Transposition.key)
+        || Options.Transposition.default
+    );
+    let semitonesToTranspose = Number(transpositionOption.value);
+    transpositionOption.addEventListener('change', () => {
+        semitonesToTranspose = Number(transpositionOption.value);
+        Options.set(Options.Transposition.key, semitonesToTranspose);
+
+        if (activeKeys.length > 0) {
+            // replay the same note(s) but with the new transposition
+            replayActiveKeys();
+        }
+    });
+
     const keys = document.getElementsByClassName('key');
     for (const key of keys) {
         key.addEventListener('click', () => {
@@ -183,11 +226,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            const frequency = (
+            let frequency = (
                 noteFrequencies[key.dataset.note]
                 * octaveMultipliers[currentOctave]
                 * keyOctaveMultiplier
             );
+
+            if (semitonesToTranspose) {
+                frequency = transposeDown12EqualTemperament(
+                    frequency, semitonesToTranspose
+                );
+            }
 
             key.classList.add('active');
 
