@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeKeys = [];
 
     // TODO: tuning system (equal temp., just int., pythagorean(maybe?))
-    // TODO: keyboard controls (QWERTY... and, maybe, CDEF... + modifiers)
     // TODO: chord mode?
     const twoVoicesOption = document.getElementById('two-voices');
     twoVoicesOption.checked = (
@@ -295,4 +294,85 @@ document.addEventListener('DOMContentLoaded', () => {
             key.click();  // on
         }
     }
+
+    function stopActiveKeys() {
+        const activeKeyIds = activeKeys.map(key => key.id);
+
+        for (const id of activeKeyIds) {
+            const key = document.getElementById(id);
+            key.click();  // off
+        }
+    }
+
+    const controlToKeyMapping = {
+        '1': keys[0],
+        '2': keys[1],
+        '3': keys[2],
+        '4': keys[3],
+        '5': keys[4],
+        '6': keys[5],
+        '7': keys[6],
+        '8': keys[7],
+        '9': keys[8],
+        '0': keys[9],
+        '-': keys[10],
+        '=': keys[11],
+        'Backspace': keys[12],
+    };
+
+    function increaseOctave() {
+        const lastIndex = octaveOption.childElementCount - 1;
+        if (octaveOption.selectedIndex+1 > lastIndex) {
+            // already at the max
+            return;
+        }
+
+        octaveOption.selectedIndex += 1;
+        // reflect changes
+        octaveOption.dispatchEvent(new Event('change'));
+    }
+
+    function decreaseOctave() {
+        if (octaveOption.selectedIndex-1 < 0) {
+            // already at the minimum
+            return;
+        }
+
+        octaveOption.selectedIndex -= 1;
+        octaveOption.dispatchEvent(new Event('change'));
+    }
+
+    function toggleTwoVoices() {
+        twoVoicesOption.checked = !twoVoicesOption.checked;
+        twoVoicesOption.dispatchEvent(new Event('change'));
+    }
+
+    addEventListener("keydown", (event) => {
+        // whether the key was pressed while the user was focusing on an option
+        // dropdown.
+        // used so we don't interfere with the option's default controls (up/down for
+        // cycling between <option>s inside the <select>)
+        const pressedInsideDropdown = event.target.nodeName === 'SELECT';
+        if (event.defaultPrevented || pressedInsideDropdown) {
+            return;
+        }
+
+        const correspondentKey = controlToKeyMapping[event.key];
+        if (correspondentKey) {
+            correspondentKey.click();
+        } else if (event.key === 'ArrowUp' || event.key === 'k') {
+            increaseOctave();
+        } else if (event.key === 'ArrowDown' || event.key === 'j') {
+            decreaseOctave();
+        } else if (event.key === 'v') {
+            toggleTwoVoices();
+        } else if (event.key === 'Escape') {
+            stopActiveKeys();
+        } else {
+            return;
+        }
+
+        // avoid handling the default action twice
+        event.preventDefault();
+    }, true);
 });
