@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '5': 2,
         '6': 3,
         '7': 4,
-    }
+    };
 
     const noteLabels = {
         'c': [
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'do-ti': [
             'Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Ti', 'do'
         ]
-    }
+    };
 
     function playNote(hertz) {
         const oscillator = context.createOscillator();
@@ -74,12 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     let activeKeys = [];
-    let currentOctave = 4;
 
     // TODO: tuning system (equal temp., just int., pythagorean(maybe?))
-    // TODO: tuning standard (a440, a442...)
-    // TODO: (as a prerequisite for the above) calculate pitches according to the
-    // system and the standard
     // TODO: keyboard controls (QWERTY... and, maybe, CDEF... + modifiers)
     // TODO: chord mode?
     const modeOption = document.getElementById('mode');
@@ -92,6 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
             secondActiveKey.oscillator.stop();
             secondActiveKey.key.classList.remove('active');
             activeKeys.pop()
+        }
+    });
+
+    const octaveOption = document.getElementById('octave');
+    let currentOctave = Number(octaveOption.value);
+    octaveOption.addEventListener('change', () => {
+        currentOctave = Number(octaveOption.value);
+        if (activeKeys.length > 0) {
+            // replay the same note(s) but with the new octave
+            replayActiveKeys();
         }
     });
 
@@ -185,13 +191,4 @@ document.addEventListener('DOMContentLoaded', () => {
             key.click();  // on
         }
     }
-
-    const octaveOption = document.getElementById('octave');
-    octaveOption.addEventListener('change', () => {
-        currentOctave = Number(octaveOption.value);
-        if (activeKeys.length > 0) {
-            // replay the same note(s) but with the new octave
-            replayActiveKeys();
-        }
-    });
 });
