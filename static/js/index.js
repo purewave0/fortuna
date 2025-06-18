@@ -1,50 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
-    // TODO: extract related 12ET data/functionality to an object
+    const TwelveEqualTemperament = {
+        SEMITONE_RATIO: 2**(1/12),
 
-    function get12EqualTemperamentFromA4(a4Frequency) {
-        // in 12 equal temperament, adjacent semitones have a ratio of the 12th root of
-        // 2 (or 2^(1/12)) between them. to find the next semitone, we multiply the
-        // current pitch by this ratio; likewise, to find the previous semitone, we
-        // divide by this ratio.
-        const SEMITONE_RATIO = 2**(1/12);
+        getScaleFromA4(a4Frequency) {
+            // in 12 equal temperament, adjacent semitones have a ratio of the 12th root
+            // of 2 (or 2^(1/12)) between them. to find the next semitone, we multiply
+            // the current pitch by this ratio; likewise, to find the previous semitone,
+            // we divide by this ratio.
 
-        return {
-            'c':  a4Frequency / (SEMITONE_RATIO**9),
-            'c#': a4Frequency / (SEMITONE_RATIO**8),
-            'd':  a4Frequency / (SEMITONE_RATIO**7),
-            'd#': a4Frequency / (SEMITONE_RATIO**6),
-            'e':  a4Frequency / (SEMITONE_RATIO**5),
-            'f':  a4Frequency / (SEMITONE_RATIO**4),
-            'f#': a4Frequency / (SEMITONE_RATIO**3),
-            'g':  a4Frequency / (SEMITONE_RATIO**2),
-            'g#': a4Frequency / (SEMITONE_RATIO),
-            'a':  a4Frequency,
-            'a#': a4Frequency * (SEMITONE_RATIO),
-            'b':  a4Frequency * (SEMITONE_RATIO**2),
-        };
+            return {
+                'c':  a4Frequency / (this.SEMITONE_RATIO**9),
+                'c#': a4Frequency / (this.SEMITONE_RATIO**8),
+                'd':  a4Frequency / (this.SEMITONE_RATIO**7),
+                'd#': a4Frequency / (this.SEMITONE_RATIO**6),
+                'e':  a4Frequency / (this.SEMITONE_RATIO**5),
+                'f':  a4Frequency / (this.SEMITONE_RATIO**4),
+                'f#': a4Frequency / (this.SEMITONE_RATIO**3),
+                'g':  a4Frequency / (this.SEMITONE_RATIO**2),
+                'g#': a4Frequency / (this.SEMITONE_RATIO),
+                'a':  a4Frequency,
+                'a#': a4Frequency * (this.SEMITONE_RATIO),
+                'b':  a4Frequency * (this.SEMITONE_RATIO**2),
+            };
+        },
+
+        /**
+         * Transpose a note's frequency down by a number of semitones.
+         *
+         * @param {number} frequency The frequency in Hert of the note to be transposed.
+         * @param {number} semitones The number of semitones to lower the note.
+         *
+         * @returns {number} The transposed frequency.
+         *
+         * @example
+         * // transpose an A4 (440 Hz) 2 semitones down
+         * TwelveEqualTemperament.transposeDown(440, 2);  // returns approx. 391.99 (G4)
+         */
+        transposeDown(frequency, semitones) {
+            return frequency / (this.SEMITONE_RATIO ** semitones);
+        },
     }
 
     const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
     const scaleLength = notes.length;
-
-    /**
-     * Transpose a note's frequency down by a number of semitones in 12ET.
-     *
-     * @param {number} frequency The frequency in Hert of the note to be transposed.
-     * @param {number} semitones The number of semitones to lower the note.
-     *
-     * @returns {number} The transposed frequency.
-     *
-     * @example
-     * // transpose an A4 (440 Hz) 2 semitones down
-     * transposeDown12EqualTemperament(440, 2);  // returns approx. 391.99 (G4)
-     */
-    function transposeDown12EqualTemperament(frequency, semitones) {
-        const SEMITONE_RATIO = 2**(1/12);
-        return frequency / (SEMITONE_RATIO ** semitones);
-    }
 
     const Options = {
         TwoVoices: {
@@ -85,11 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     let currentTuning = Number(tuningOption.value);
 
-    let noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
+    let noteFrequencies = TwelveEqualTemperament.getScaleFromA4(currentTuning);
     tuningOption.addEventListener('change', () => {
         currentTuning = Number(tuningOption.value);
         Options.set(Options.TuningStandard.key, currentTuning);
-        noteFrequencies = get12EqualTemperamentFromA4(currentTuning);
+        noteFrequencies = TwelveEqualTemperament.getScaleFromA4(currentTuning);
 
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new tuning
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             if (semitonesToTranspose) {
-                frequency = transposeDown12EqualTemperament(
+                frequency = TwelveEqualTemperament.transposeDown(
                     frequency, semitonesToTranspose
                 );
             }
