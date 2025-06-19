@@ -325,10 +325,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     activeKeys.splice(correspondentKeyIndex, 1);
 
-                    // TODO: in Just Intonation, if there were 2 active keys before,
-                    // the one that was just turned off may have been the root, so the
-                    // remaining active key is now the new root; we should readjust it
-                    // against A
+                    const wasRootStopped = correspondentKeyIndex === 0;
+                    if (
+                        activeKeys.length === 1
+                        && currentTuningSystem === 'just-intonation'
+                        && wasRootStopped
+                    ) {
+                        // the old root was turned off, so the remaining active key
+                        // should be the new root. however, its frequency is still based
+                        // on the old root; readjust it
+                        replayActiveKeys();
+                    }
                     return;
                 }
 
