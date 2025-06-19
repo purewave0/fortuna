@@ -1,29 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
+    const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+
     const TwelveEqualTemperament = {
         SEMITONE_RATIO: 2**(1/12),
+        aIndex: notes.indexOf('a'),
 
-        getScaleFromA4(a4Frequency) {
-            // in 12 equal temperament, adjacent semitones have a ratio of the 12th root
-            // of 2 (or 2^(1/12)) between them. to find the next semitone, we multiply
-            // the current pitch by this ratio; likewise, to find the previous semitone,
-            // we divide by this ratio.
-
-            return {
-                'c':  a4Frequency / (this.SEMITONE_RATIO**9),
-                'c#': a4Frequency / (this.SEMITONE_RATIO**8),
-                'd':  a4Frequency / (this.SEMITONE_RATIO**7),
-                'd#': a4Frequency / (this.SEMITONE_RATIO**6),
-                'e':  a4Frequency / (this.SEMITONE_RATIO**5),
-                'f':  a4Frequency / (this.SEMITONE_RATIO**4),
-                'f#': a4Frequency / (this.SEMITONE_RATIO**3),
-                'g':  a4Frequency / (this.SEMITONE_RATIO**2),
-                'g#': a4Frequency / (this.SEMITONE_RATIO),
-                'a':  a4Frequency,
-                'a#': a4Frequency * (this.SEMITONE_RATIO),
-                'b':  a4Frequency * (this.SEMITONE_RATIO**2),
-            };
+        /**
+         * Get the frequency of a note using the frequency of A as reference.
+         *
+         * @param {string} note The desired note. It should match one of the
+         *      `data-note` values of the keyboard keys.
+         * @param {number} aFrequency The frequency of A, to be used as reference.
+         *
+         * @returns {number} The frequency of the desired note.
+         */
+        getNoteFrequencyFromA(note, aFrequency) {
+            // the formula for calculating absolute frequencies using A as reference is:
+            // Pa * (2^(1/12))^(n-a)
+            // where:
+            //     Pa = the frequency of A (the reference)
+            //     n-a = the distance/difference in semitones between the desired
+            //         pitch and A
+            //
+            // adapted from the section "Calculating absolute frequencies" of:
+            // https://en.wikipedia.org/wiki/12_equal_temperament
+            const semitonesDistance = notes.indexOf(note) - this.aIndex;
+            return aFrequency * (this.SEMITONE_RATIO ** semitonesDistance)
         },
 
         /**
@@ -43,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     }
 
-    const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
     const scaleLength = notes.length;
 
     const Options = {
@@ -85,11 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     let currentTuning = Number(tuningOption.value);
 
-    let noteFrequencies = TwelveEqualTemperament.getScaleFromA4(currentTuning);
     tuningOption.addEventListener('change', () => {
         currentTuning = Number(tuningOption.value);
         Options.set(Options.TuningStandard.key, currentTuning);
-        noteFrequencies = TwelveEqualTemperament.getScaleFromA4(currentTuning);
 
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new tuning
@@ -225,8 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            const baseFrequency = TwelveEqualTemperament.getNoteFrequencyFromA(
+                key.dataset.note, currentTuning
+            );
+
             let frequency = (
-                noteFrequencies[key.dataset.note]
+                baseFrequency
                 * octaveMultipliers[currentOctave]
                 * keyOctaveMultiplier
             );
