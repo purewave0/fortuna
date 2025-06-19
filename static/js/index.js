@@ -2,16 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
     const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+    const aIndex = notes.indexOf('a');
 
     const TwelveEqualTemperament = {
         SEMITONE_RATIO: 2**(1/12),
-        aIndex: notes.indexOf('a'),
 
         /**
          * Get the frequency of a note using the frequency of A as reference.
          *
          * @param {string} note The desired note. It should match one of the
-         *      `data-note` values of the keyboard keys.
+         *     `data-note` values of the keyboard keys.
          * @param {number} aFrequency The frequency of A, to be used as reference.
          *
          * @returns {number} The frequency of the desired note.
@@ -26,14 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
             //
             // adapted from the section "Calculating absolute frequencies" of:
             // https://en.wikipedia.org/wiki/12_equal_temperament
-            const semitonesDistance = notes.indexOf(note) - this.aIndex;
+            const semitonesDistance = notes.indexOf(note) - aIndex;
             return aFrequency * (this.SEMITONE_RATIO ** semitonesDistance)
         },
 
         /**
          * Transpose a note's frequency down by a number of semitones.
          *
-         * @param {number} frequency The frequency in Hert of the note to be transposed.
+         * @param {number} frequency The frequency in Hertz of the note to be
+         *      transposed.
          * @param {number} semitones The number of semitones to lower the note.
          *
          * @returns {number} The transposed frequency.
@@ -44,6 +45,92 @@ document.addEventListener('DOMContentLoaded', () => {
          */
         transposeDown(frequency, semitones) {
             return frequency / (this.SEMITONE_RATIO ** semitones);
+        },
+    };
+
+    const JustIntonation = {
+        ratioByInterval: {
+            0:  1/1,    // unison
+            1:  16/15,  // minor 2nd
+            2:  9/8,    // major 2nd
+            3:  6/5,    // minor 3rd
+            4:  5/4,    // major 3rd
+            5:  4/3,    // perfect 4th
+            6:  45/32,  // tritone
+            7:  3/2,    // perfect 5th
+            8:  8/5,    // minor 6th
+            9:  5/3,    // major 6th
+            10: 16/9,   // minor 7th
+            11: 15/8,   // major 7th
+            12: 2/1,    // octave
+        },
+
+        /**
+         * Get the frequency of a note based on the frequency of another note as root.
+         *
+         * @param {string} note The desired note. It should match one of the
+         *     `data-note` values of the keyboard keys.
+         * @param {string} rootNote The note the scale is based on. Should also match
+         *     `data-note` values.
+         * @param {number} rootFrequency The frequency of the root note.
+         *
+         * @returns {number} The frequency of the desired note.
+         */
+        getNoteFrequencyFromRoot(note, rootNote, rootFrequency) {
+            // first, find the relationship between this note and the root
+            let semitonesDistance = notes.indexOf(note) - notes.indexOf(rootNote);
+            let octaveMultiplier = 1;
+            if (semitonesDistance < 0) {
+                // desired note is LOWER than the root. normalise the distance but lower
+                // it 1 octave accordingly
+                octaveMultiplier = 0.5;
+                semitonesDistance += 12;
+            }
+            const ratio = this.ratioByInterval[semitonesDistance];
+
+            return rootFrequency * octaveMultiplier * ratio;
+        },
+
+        /**
+         * Get the frequency of the root note using the frequency of A as reference.
+         *
+         * @param {string} rootNote The desired note. It should match one of the
+         *      `data-note` values of the keyboard keys.
+         * @param {number} aFrequency The frequency of A, to be used as reference.
+         *
+         * @returns {number} The frequency of the root note.
+         */
+        getRootFrequencyFromA(rootNote, aFrequency) {
+            // first, find the relationship between the root and A
+            let semitonesDistance = notes.indexOf(rootNote) - aIndex;
+            let octaveMultiplier = 1;
+            if (semitonesDistance < 0) {
+                // the root is LOWER than A. normalise the distance but lower
+                // it 1 octave accordingly
+                octaveMultiplier = 0.5;
+                semitonesDistance += 12;
+            }
+            const ratio = this.ratioByInterval[semitonesDistance];
+
+            return aFrequency * octaveMultiplier * ratio;
+        },
+
+        // TODO:
+        /**
+         * Transpose a note's frequency down by a number of semitones.
+         *
+         * @param {number} frequency The frequency in Hertz of the note to be transposed.
+         * @param {number} semitones The number of semitones to lower the note.
+         *
+         * @returns {number} The transposed frequency.
+         *
+         * @example
+         * // transpose an A4 (440 Hz) 2 semitones down
+         * TwelveEqualTemperament.transposeDown(440, 2);  // returns approx. 391.99 (G4)
+         */
+        transposeDown(frequency, semitones) {
+            // TODO
+            return null;
         },
     }
 
@@ -61,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
         Octave: {
             key: 'octave',
             default: 4,
+        },
+        TuningSystem: {
+            key: 'tuning-system',
+            default: '12et',
         },
         TuningStandard: {
             key: 'tuning-standard',
@@ -80,20 +171,38 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
+    // the system of spacing between the frequencies
+    const tuningSystemOption = document.getElementById('tuning-system');
+    tuningSystemOption.value = (
+        Options.get(Options.TuningSystem.key)
+        || Options.TuningSystem.default
+    );
+    let currentTuningSystem = tuningSystemOption.value;
+
+    tuningSystemOption.addEventListener('change', () => {
+        currentTuningSystem = tuningSystemOption.value;
+        Options.set(Options.TuningSystem.key, currentTuningSystem);
+
+        if (activeKeys.length > 0) {
+            // replay the same note(s) but with the new tuning system
+            replayActiveKeys();
+        }
+    });
+
     // the frequency of A4 (A in the 4th octave, in scientific pitch notation)
-    const tuningOption = document.getElementById('tuning');
-    tuningOption.value = (
+    const tuningStandardOption = document.getElementById('tuning-standard');
+    tuningStandardOption.value = (
         Options.get(Options.TuningStandard.key)
         || Options.TuningStandard.default
     );
-    let currentTuning = Number(tuningOption.value);
+    let currentTuningStandard = Number(tuningStandardOption.value);
 
-    tuningOption.addEventListener('change', () => {
-        currentTuning = Number(tuningOption.value);
-        Options.set(Options.TuningStandard.key, currentTuning);
+    tuningStandardOption.addEventListener('change', () => {
+        currentTuningStandard = Number(tuningStandardOption.value);
+        Options.set(Options.TuningStandard.key, currentTuningStandard);
 
         if (activeKeys.length > 0) {
-            // replay the same note(s) but with the new tuning
+            // replay the same note(s) but with the new tuning standard
             replayActiveKeys();
         }
     });
@@ -181,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         semitonesToTranspose = Number(transpositionOption.value);
         Options.set(Options.Transposition.key, semitonesToTranspose);
 
+
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new transposition
             replayActiveKeys();
@@ -226,9 +336,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            const baseFrequency = TwelveEqualTemperament.getNoteFrequencyFromA(
-                key.dataset.note, currentTuning
-            );
+            let baseFrequency = null;
+            if (currentTuningSystem === '12et') {
+                baseFrequency = TwelveEqualTemperament.getNoteFrequencyFromA(
+                    key.dataset.note, currentTuningStandard
+                );
+            } else if (currentTuningSystem === 'just-intonation') {
+                // in Just Intonation, the frequency will depend on whether this is the
+                // FIRST note (root), or just an interval based on the root (which is
+                // already playing)
+                const isRootPlaying = activeKeys.length > 0;
+                if (isRootPlaying) {
+                    // we'll just be playing an interval based on the root then
+                    const rootKey = activeKeys[0];
+                    baseFrequency = JustIntonation.getNoteFrequencyFromRoot(
+                        key.dataset.note, rootKey.note, rootKey.baseFrequency,
+                        // using baseFrequency as base as it's not affected by
+                        // the octave multiplier
+                    )
+                } else {
+                    // we're going to play the FIRST note
+                    baseFrequency = JustIntonation.getRootFrequencyFromA(
+                        key.dataset.note, currentTuningStandard
+                    );
+                }
+            }
+
+            // TODO: JustIntonation transposition
+            if (semitonesToTranspose) {
+                baseFrequency = TwelveEqualTemperament.transposeDown(
+                    baseFrequency, semitonesToTranspose
+                );
+            }
 
             let frequency = (
                 baseFrequency
@@ -236,17 +375,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 * keyOctaveMultiplier
             );
 
-            if (semitonesToTranspose) {
-                frequency = TwelveEqualTemperament.transposeDown(
-                    frequency, semitonesToTranspose
-                );
-            }
-
             key.classList.add('active');
 
             const activeKey = {
                 id: key.id,
                 note: key.dataset.note,
+                baseFrequency: baseFrequency,
                 oscillator: playNote(frequency),
                 octaveMultiplier: keyOctaveMultiplier,
                 key: key,
@@ -296,6 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const id of activeKeyIds) {
             const key = document.getElementById(id);
             key.click();  // off
+        }
+
+        for (const id of activeKeyIds) {
+            const key = document.getElementById(id);
             key.click();  // on
         }
     }
@@ -352,6 +490,18 @@ document.addEventListener('DOMContentLoaded', () => {
         twoVoicesOption.dispatchEvent(new Event('change'));
     }
 
+    function cycleTuningSystems() {
+        const lastIndex = tuningSystemOption.childElementCount - 1;
+        if (tuningSystemOption.selectedIndex+1 > lastIndex) {
+            // at the end; wrap around
+            tuningSystemOption.selectedIndex = 0;
+        } else {
+            tuningSystemOption.selectedIndex += 1;
+        }
+
+        tuningSystemOption.dispatchEvent(new Event('change'));
+    }
+
     addEventListener("keydown", (event) => {
         // whether the key was pressed while the user was focusing on an option
         // dropdown.
@@ -371,6 +521,8 @@ document.addEventListener('DOMContentLoaded', () => {
             decreaseOctave();
         } else if (event.key === 'v') {
             toggleTwoVoices();
+        } else if (event.key === 't') {
+            cycleTuningSystems();
         } else if (event.key === 'Escape') {
             stopActiveKeys();
         } else {
