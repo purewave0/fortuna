@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const context = new window.AudioContext();
 
     const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+    const scaleLength = notes.length;
     const aIndex = notes.indexOf('a');
 
     const TwelveEqualTemperament = {
@@ -66,7 +67,52 @@ document.addEventListener('DOMContentLoaded', () => {
         },
 
         /**
+         * Get the frequency of the root note using the frequency of A as reference.
+         *
+         * @param {string} rootNote The desired note. It should match one of the
+         *      `data-note` values of the keyboard keys.
+         * @param {number} aFrequency The frequency of A, which is the reference.
+         * @param {number} semitonesToTranspose The number of semitones to transpose
+         *     down. Default is 0.
+         *
+         * @returns {number} The frequency of the root note.
+         */
+        getRootFrequencyFromA(rootNote, aFrequency, semitonesToTranspose=0) {
+            // our initial reference is A. transposing N semitones down can be viewed
+            // as starting at A (the reference), moving N semitones up, and choosing the
+            // note we land on as the new reference.
+            // for example, with A=440, transposing 2 semitones down means we'll start
+            // at A and go 2 semitones up: A, A#, *B*. B will now be our reference note,
+            // equal to 440 Hz.
+            let newReferenceNoteIndex = (aIndex + semitonesToTranspose) % scaleLength;
+
+            let octaveMultiplier = 1;
+            const shouldNormaliseOctave =
+                (aIndex+semitonesToTranspose) > scaleLength-1;
+            if (shouldNormaliseOctave) {
+                // we wrapped around; decrease 1 octave
+                octaveMultiplier *= 0.5
+            }
+
+            // now, for the frequency: first, find the relationship between the root and
+            // our reference
+            let semitonesDistance = notes.indexOf(rootNote) - newReferenceNoteIndex;
+
+            if (semitonesDistance < 0) {
+                // the root is LOWER than our reference, so we wrapped around. normalise
+                // the distance but decrease 1 octave accordingly
+                octaveMultiplier *= 0.5;
+                semitonesDistance += 12;
+            }
+            const ratio = this.ratioByInterval[semitonesDistance];
+
+            return aFrequency * octaveMultiplier * ratio;
+        },
+
+
+        /**
          * Get the frequency of a note based on the frequency of another note as root.
+         * Transposition of the root, if desired, should be done beforehand.
          *
          * @param {string} note The desired note. It should match one of the
          *     `data-note` values of the keyboard keys.
@@ -76,13 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
          *
          * @returns {number} The frequency of the desired note.
          */
-        getNoteFrequencyFromRoot(note, rootNote, rootFrequency) {
+        getNoteFrequencyFromRoot(
+            note,
+            rootNote,
+            rootFrequency,
+        ) {
             // first, find the relationship between this note and the root
             let semitonesDistance = notes.indexOf(note) - notes.indexOf(rootNote);
+
             let octaveMultiplier = 1;
             if (semitonesDistance < 0) {
-                // desired note is LOWER than the root. normalise the distance but lower
-                // it 1 octave accordingly
+                // desired note is LOWER than the root. normalise the distance but
+                // decrease 1 octave accordingly
                 octaveMultiplier = 0.5;
                 semitonesDistance += 12;
             }
@@ -90,51 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return rootFrequency * octaveMultiplier * ratio;
         },
-
-        /**
-         * Get the frequency of the root note using the frequency of A as reference.
-         *
-         * @param {string} rootNote The desired note. It should match one of the
-         *      `data-note` values of the keyboard keys.
-         * @param {number} aFrequency The frequency of A, to be used as reference.
-         *
-         * @returns {number} The frequency of the root note.
-         */
-        getRootFrequencyFromA(rootNote, aFrequency) {
-            // first, find the relationship between the root and A
-            let semitonesDistance = notes.indexOf(rootNote) - aIndex;
-            let octaveMultiplier = 1;
-            if (semitonesDistance < 0) {
-                // the root is LOWER than A. normalise the distance but lower
-                // it 1 octave accordingly
-                octaveMultiplier = 0.5;
-                semitonesDistance += 12;
-            }
-            const ratio = this.ratioByInterval[semitonesDistance];
-
-            return aFrequency * octaveMultiplier * ratio;
-        },
-
-        // TODO:
-        /**
-         * Transpose a note's frequency down by a number of semitones.
-         *
-         * @param {number} frequency The frequency in Hertz of the note to be transposed.
-         * @param {number} semitones The number of semitones to lower the note.
-         *
-         * @returns {number} The transposed frequency.
-         *
-         * @example
-         * // transpose an A4 (440 Hz) 2 semitones down
-         * TwelveEqualTemperament.transposeDown(440, 2);  // returns approx. 391.99 (G4)
-         */
-        transposeDown(frequency, semitones) {
-            // TODO
-            return null;
-        },
     }
 
-    const scaleLength = notes.length;
 
     const Options = {
         TwoVoices: {
@@ -243,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeKeys = [];
 
-    // TODO: tuning system (equal temp., just int., pythagorean(maybe?))
     // TODO: chord mode?
     const twoVoicesOption = document.getElementById('two-voices');
     twoVoicesOption.checked = (
@@ -317,6 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     correspondentKey.key.classList.remove('active');
 
                     activeKeys.splice(correspondentKeyIndex, 1);
+
+                    // TODO: in Just Intonation, if there were 2 active keys before,
+                    // the one that was just turned off may have been the root, so the
+                    // remaining active key is now the new root; we should readjust it
+                    // against A
                     return;
                 }
 
@@ -341,33 +353,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 baseFrequency = TwelveEqualTemperament.getNoteFrequencyFromA(
                     key.dataset.note, currentTuningStandard
                 );
+                if (semitonesToTranspose) {
+                    baseFrequency = TwelveEqualTemperament.transposeDown(
+                        baseFrequency, semitonesToTranspose
+                    );
+                }
             } else if (currentTuningSystem === 'just-intonation') {
                 // in Just Intonation, the frequency will depend on whether this is the
-                // FIRST note (root), or just an interval based on the root (which is
-                // already playing)
+                // FIRST note (A as reference), or just an interval (root as reference)
                 const isRootPlaying = activeKeys.length > 0;
                 if (isRootPlaying) {
                     // we'll just be playing an interval based on the root then
                     const rootKey = activeKeys[0];
                     baseFrequency = JustIntonation.getNoteFrequencyFromRoot(
-                        key.dataset.note, rootKey.note, rootKey.baseFrequency,
-                        // using baseFrequency as base as it's not affected by
-                        // the octave multiplier
+                        key.dataset.note,
+                        rootKey.note,
+                        rootKey.baseFrequency,
+                        // using baseFrequency as it's not affected by the octave
+                        // multiplier
                     )
                 } else {
                     // we're going to play the FIRST note
                     baseFrequency = JustIntonation.getRootFrequencyFromA(
-                        key.dataset.note, currentTuningStandard
+                        key.dataset.note, currentTuningStandard, semitonesToTranspose
                     );
                 }
             }
 
-            // TODO: JustIntonation transposition
-            if (semitonesToTranspose) {
-                baseFrequency = TwelveEqualTemperament.transposeDown(
-                    baseFrequency, semitonesToTranspose
-                );
-            }
 
             let frequency = (
                 baseFrequency
