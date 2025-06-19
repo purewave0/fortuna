@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // reverting to one-voice mode. turn off the 2nd key
             const secondActiveKey = activeKeys[1];
             secondActiveKey.oscillator.stop();
-            secondActiveKey.key.classList.remove('active');
+            secondActiveKey.key.classList.remove('root', 'secondary');
             activeKeys.pop()
         }
     });
@@ -321,19 +321,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     // off
                     const correspondentKey = activeKeys[correspondentKeyIndex];
                     correspondentKey.oscillator.stop();
-                    correspondentKey.key.classList.remove('active');
+                    correspondentKey.key.classList.remove('root', 'secondary');
 
                     activeKeys.splice(correspondentKeyIndex, 1);
 
                     const wasRootStopped = correspondentKeyIndex === 0;
                     if (
                         activeKeys.length === 1
-                        && currentTuningSystem === 'just-intonation'
                         && wasRootStopped
                     ) {
                         // the old root was turned off, so the remaining active key
-                        // should be the new root. however, its frequency is still based
-                        // on the old root; readjust it
+                        // should be the new root. replay keys because
+                        // 1. for JI, its frequency is still based on the old root; so
+                        // it should be readjusted (for 12ET this doesn't matter)
+                        // 2. it will correctly set the css 'root' class for the key
                         replayActiveKeys();
                     }
                     return;
@@ -350,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // the last one
                     const oldKey = activeKeys[lastIndex];
                     oldKey.oscillator.stop();
-                    oldKey.key.classList.remove('active');
+                    oldKey.key.classList.remove('root', 'secondary');
                     activeKeys.pop();
                 }
             }
@@ -394,7 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 * keyOctaveMultiplier
             );
 
-            key.classList.add('active');
+            if (activeKeys.length === 0) {
+                key.classList.add('root');
+            } else {
+                key.classList.add('secondary');
+            }
 
             const activeKey = {
                 id: key.id,
