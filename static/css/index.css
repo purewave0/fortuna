@@ -80,7 +80,7 @@ body {
     background-color: var(--black-key-hover-color);
 }
 
-.key.black:hover .note-label {
+.key.black:not(.root):not(.secondary):hover .note-label {
     color: var(--white-key-label-color);
 }
 
@@ -125,6 +125,7 @@ body {
 .key.black > .note-label {
     font-size: 13pt;
     color: var(--black-key-label-color);
+    transition: color ease 0.05s;
 }
 
 
