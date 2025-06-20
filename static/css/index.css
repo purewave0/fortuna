@@ -1,5 +1,10 @@
 body {
-    --white-key-width: 80px;
+    margin: 0;
+    font-family: sans-serif;
+
+    --content-max-width: 1200px;
+
+    --white-key-width: calc(100% / 8);
     --black-key-left-offset: calc(var(--white-key-width) / 5);   /* slight right bias */
     --black-key-center-offset: calc(var(--white-key-width) / 4); /* centered */
     --black-key-right-offset: calc(var(--white-key-width) / 3);  /* slight left bias */
@@ -15,16 +20,28 @@ body {
     --black-key-hover-color: #ffbabd;
     --black-key-secondary-color: #2443a2;
     --black-key-label-color: white;
+
+    --pc-key-color: #535356;
+}
+
+#content {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
 }
 
 
 /* -- keyboard -- */
 
 #keyboard {
-    width: fit-content;
+    width: 85%;
+    margin: 0 auto;
+    height: 50vh;
+    max-height: 500px;
     display: flex;
     flex-direction: row;
-    height: 300px;
     position: relative;
 }
 
@@ -70,6 +87,7 @@ body {
 .key.black {
     border-top: 4px solid black;
     height: 60%;
+    /* TODO: widen black keys */
     width: calc(var(--white-key-width) / 2);
     background-color: black;
     position: absolute;
@@ -118,21 +136,40 @@ body {
 
 .key > .note-label {
     margin-bottom: 32px;
-    font-size: 20pt;
+    font-size: 28pt;
     color: var(--white-key-label-color);
 }
 
 .key.black > .note-label {
-    font-size: 13pt;
+    font-size: 18pt;
     color: var(--black-key-label-color);
     transition: color ease 0.05s;
 }
 
 
 /* -- options -- */
+
 #options {
-    margin-top: 64px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     row-gap: 8px;
+}
+
+
+/* -- keybinds -- */
+
+#keybinds {
+    list-style-type: none;
+}
+
+.pc-key {
+    display: inline-block;
+    background-color: var(--pc-key-color);
+    padding: 8px;
+    min-width: 16px;
+    text-align: center;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0px -4px 0px 0px rgba(127,127,127,0.75) inset;
+    user-select: none;
 }
