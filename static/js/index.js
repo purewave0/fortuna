@@ -145,9 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const Options = {
-        TwoVoices: {
-            key: 'two-voices',
-            default: false,
+        Mode: {
+            key: 'mode',
+            default: 'single-voice',
         },
         NoteLabels: {
             key: 'note-labels',
@@ -252,18 +252,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeKeys = [];
 
     // TODO: chord mode?
-    const twoVoicesOption = document.getElementById('two-voices');
-    twoVoicesOption.checked = (
-        (Options.get(Options.TwoVoices.key) === 'true')
-        || Options.TwoVoices.default
+    const modeOption = document.getElementById('mode');
+    modeOption.value = (
+        Options.get(Options.Mode.key) || Options.Mode.default
     );
-    let isTwoVoices = twoVoicesOption.checked;
-    twoVoicesOption.addEventListener('change', () => {
-        isTwoVoices = twoVoicesOption.checked;
-        Options.set(Options.TwoVoices.key, isTwoVoices);
+    let currentMode = modeOption.value;
+    modeOption.addEventListener('change', () => {
+        currentMode = modeOption.value;
+        Options.set(Options.Mode.key, currentMode);
 
-        if (!isTwoVoices && activeKeys.length > 1) {
-            // reverting to one-voice mode. turn off the 2nd key
+        if (currentMode === 'single-voice' && activeKeys.length > 1) {
+            // reverting to single-voice mode. turn off the 2nd key
             const secondActiveKey = activeKeys[1];
             secondActiveKey.oscillator.stop();
             secondActiveKey.key.classList.remove('root', 'secondary');
@@ -343,8 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // is clicking on a new key. limit the number of active notes
                 // according to the current mode
                 if (
-                    !isTwoVoices
-                    || (isTwoVoices && activeKeys.length === 2)
+                    currentMode === 'single-voice'
+                    || (currentMode === 'two-voice' && activeKeys.length === 2)
                 ) {
                     const lastIndex = activeKeys.length - 1;
                     // in two-voices mode, this keeps the first one ("root") and stops
@@ -509,9 +508,16 @@ document.addEventListener('DOMContentLoaded', () => {
         octaveOption.dispatchEvent(new Event('change'));
     }
 
-    function toggleTwoVoices() {
-        twoVoicesOption.checked = !twoVoicesOption.checked;
-        twoVoicesOption.dispatchEvent(new Event('change'));
+    function cycleMode() {
+        const lastIndex = modeOption.childElementCount - 1;
+        if (modeOption.selectedIndex+1 > lastIndex) {
+            // at the end; wrap around
+            modeOption.selectedIndex = 0;
+        } else {
+            modeOption.selectedIndex += 1;
+        }
+
+        modeOption.dispatchEvent(new Event('change'));
     }
 
     function cycleTuningSystems() {
@@ -543,8 +549,8 @@ document.addEventListener('DOMContentLoaded', () => {
             increaseOctave();
         } else if (event.key === 'ArrowDown' || event.key === 'j') {
             decreaseOctave();
-        } else if (event.key === 'v') {
-            toggleTwoVoices();
+        } else if (event.key === 'm') {
+            cycleMode();
         } else if (event.key === 't') {
             cycleTuningSystems();
         } else if (event.key === 'Escape') {
@@ -559,14 +565,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // interface interaction
 
+    const allOptions = document.querySelectorAll('.option select, .option input');
+    console.log(allOptions);
+
     const hidePanel = document.getElementById('bottom-panel-hide');
     hidePanel.addEventListener('click', () => {
         if (!document.body.classList.contains('hiding-bottom-panel')) {
             document.body.classList.add('hiding-bottom-panel');
-            hidePanel.textContent = 'show panel';
+            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-120v-240h80v104l124-124 56 56-124 124h104v80H120Zm516-460-56-56 124-124H600v-80h240v240h-80v-104L636-580Z"/></svg>';
+            for (const option of allOptions) {
+                option.disabled = true;
+            }
         } else {
             document.body.classList.remove('hiding-bottom-panel');
-            hidePanel.textContent = 'hide panel';
+            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z"/></svg>';
+            for (const option of allOptions) {
+                option.disabled = false;
+            }
         }
     });
 });
