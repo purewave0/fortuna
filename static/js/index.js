@@ -556,4 +556,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // avoid handling the default action twice
         event.preventDefault();
     }, true);
+
+    // interface interaction
+
+    const hidePanel = document.getElementById('bottom-panel-hide');
+    hidePanel.addEventListener('click', () => {
+        if (!document.body.classList.contains('hiding-bottom-panel')) {
+            document.body.classList.add('hiding-bottom-panel');
+            hidePanel.textContent = 'show panel';
+        } else {
+            document.body.classList.remove('hiding-bottom-panel');
+            hidePanel.textContent = 'hide panel';
+        }
+    });
 });

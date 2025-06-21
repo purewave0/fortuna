@@ -22,13 +22,15 @@ body {
     --black-key-label-color: white;
 
     --pc-key-color: #535356;
+
+    --title-color: #777777;
 }
 
 #content {
-    max-width: var(--content-max-width);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
     row-gap: 32px;
 }
 
@@ -38,7 +40,7 @@ body {
 #keyboard {
     width: 85%;
     margin: 0 auto;
-    height: 50vh;
+    height: 60vh;
     max-height: 500px;
     display: flex;
     flex-direction: row;
@@ -147,12 +149,90 @@ body {
 }
 
 
+#bottom-panel {
+    max-width: var(--content-max-width);
+    background-color: coral;
+    padding: 12px 24px 24px 24px;
+    border-radius: 16px;
+    position: relative;
+    margin: 0 24px 24px 24px;
+}
+
+#bottom-panel-header {
+    display: flex;
+    flex-direction: row;
+    column-gap: 24px;
+    align-items: center;
+    margin: 8px 0 24px 0;
+    justify-content: space-between;
+}
+
+#bottom-panel-title {
+    font-weight: normal;
+    color: var(--title-color);
+    margin: 0;
+}
+
+#bottom-panel-hide {
+    height: fit-content;
+    background: none;
+    border: none;
+    color: lightblue;
+    font-size: 14pt;
+    cursor: pointer;
+}
+
+#bottom-panel-content {
+    display: flex;
+    flex-direction: row;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+body.hiding-bottom-panel #keyboard {
+    width: 95%;
+    height: 80vh;
+    max-height: initial;
+}
+
+body.hiding-bottom-panel #bottom-panel {
+    width: fit-content;
+    padding-bottom: 12px;
+}
+
+body.hiding-bottom-panel #bottom-panel-header {
+    margin: 8px 0;
+}
+
+body.hiding-bottom-panel #bottom-panel-content {
+    max-height: 0;
+}
+
+
 /* -- options -- */
 
 #options {
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 8px;
+    font-size: 16pt;
+}
+
+select {
+    font-size: 16pt;
+}
+
+input {
+    width: 18px;
+    height: 18px;
+}
+
+/* -- extras -- */
+
+#extras {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
 }
 
 

@@ -52,132 +52,146 @@
             </button>
         </div>
 
-        <div id="options">
-            <div id="two-voices-option" class="option">
-                <label for="two-voices">Two-voices mode</label>
-                <input id="two-voices" type="checkbox">
+        <div id="bottom-panel">
+            <div id="bottom-panel-header">
+                <h2 id="bottom-panel-title">Options</h2>
+                <button id="bottom-panel-hide">hide panel</button>
             </div>
+            <div id="bottom-panel-content">
+                <div id="options">
+                    <div id="two-voices-option" class="option">
+                        <label for="two-voices">Two-voices mode</label>
+                        <input id="two-voices" type="checkbox">
+                    </div>
 
-            <div id="note-labels-option" class="option">
-                <label for="note-labels">Note labels:</label>
-                <select id="note-labels">
-                    <option value="none">No labels</option>
-                    <option value="c">C, D, E…</option>
-                    <option value="do-si">Do, Re, Mi…, Si</option>
-                    <option value="do-ti">Do, Re, Mi…, Ti</option>
-                </select>
-            </div>
+                    <div id="note-labels-option" class="option">
+                        <label for="note-labels">Note labels:</label>
+                        <select id="note-labels">
+                            <option value="none">No labels</option>
+                            <option value="c">C, D, E…</option>
+                            <option value="do-si">Do, Re, Mi…, Si</option>
+                            <option value="do-ti">Do, Re, Mi…, Ti</option>
+                        </select>
+                    </div>
 
-            <div id="octave-option" class="option">
-                <label for="octave">Octave:</label>
-                <select id="octave">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4" selected>4 (middle)</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                </select>
-            </div>
+                    <div id="octave-option" class="option">
+                        <label for="octave">Octave:</label>
+                        <select id="octave">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4 (middle)</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
 
-            <div id="tuning-standard-option" class="option">
-                <label for="tuning-standard">Tuning standard:</label>
-                <select id="tuning-standard">
-                    <option value="415">A415</option>
-                    <option value="432">A432</option>
-                    <option value="440" selected>A440 (default)</option>
-                    <option value="441">A441</option>
-                    <option value="442">A442</option>
-                    <option value="443">A443</option>
-                    <option value="444">A444</option>
-                </select>
-            </div>
+                    <div id="tuning-standard-option" class="option">
+                        <label for="tuning-standard">Tuning standard:</label>
+                        <select id="tuning-standard">
+                            <option value="415">A415</option>
+                            <option value="432">A432</option>
+                            <option value="440" selected>A440 (default)</option>
+                            <option value="441">A441</option>
+                            <option value="442">A442</option>
+                            <option value="443">A443</option>
+                            <option value="444">A444</option>
+                        </select>
+                    </div>
 
-            <div id="tuning-system-option" class="option">
-                <label for="tuning-system">Tuning system:</label>
-                <select id="tuning-system">
-                    <option value="12et" selected>12 Equal Temperament (default)</option>
-                    <option value="just-intonation">Just Intonation</option>
-                </select>
-            </div>
+                    <div id="tuning-system-option" class="option">
+                        <label for="tuning-system">Tuning system:</label>
+                        <select id="tuning-system">
+                            <option value="12et" selected>12 Equal Temperament (default)</option>
+                            <option value="just-intonation">Just Intonation</option>
+                        </select>
+                    </div>
 
-            <div id="transposition-option" class="option">
-                <label for="transposition">Transposition:</label>
-                <select id="transposition">
-                    <option value="0">None</option>
-                    <option value="1">C → B</option>
-                    <option value="2">C → B♭</option>
-                    <option value="3">C → A</option>
-                    <option value="4">C → A♭</option>
-                    <option value="5">C → G</option>
-                    <option value="6">C → G♭</option>
-                    <option value="7">C → F</option>
-                    <option value="8">C → E</option>
-                    <option value="9">C → E♭</option>
-                    <option value="10">C → D</option>
-                    <option value="11">C → D♭</option>
-                </select>
+                    <div id="transposition-option" class="option">
+                        <label for="transposition">Transposition:</label>
+                        <select id="transposition">
+                            <option value="0">None</option>
+                            <option value="1">C → B</option>
+                            <option value="2">C → B♭</option>
+                            <option value="3">C → A</option>
+                            <option value="4">C → A♭</option>
+                            <option value="5">C → G</option>
+                            <option value="6">C → G♭</option>
+                            <option value="7">C → F</option>
+                            <option value="8">C → E</option>
+                            <option value="9">C → E♭</option>
+                            <option value="10">C → D</option>
+                            <option value="11">C → D♭</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="extras">
+                    <button id="show-how-to-use">How to use</button>
+                    <button id="show-preferences">Preferences</button>
+                </div>
+
+                <!-- TODO: show this in a modal when 'How to use' is clicked -->
+                <table id="keybinds" hidden>
+                    <tr>
+                        <td>
+                            <span>Play notes</span>
+                        </td>
+
+                        <td>
+                            <span class="pc-key">1</span>
+                            <span>through</span>
+                            <span class="pc-key">Backspace</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span>Raise octave</span>
+                        </td>
+
+                        <td>
+                            <span class="pc-key">↑</span>
+                            <span>or</span>
+                            <span class="pc-key">K</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span>Lower octave</span>
+                        </td>
+
+                        <td>
+                            <span class="pc-key">↓</span>
+                            <span>or</span>
+                            <span class="pc-key">J</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span>Toggle two-voices mode</span>
+                        </td>
+
+                        <td>
+                            <span class="pc-key">V</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <span>Change tuning system</span>
+                        </td>
+
+                        <td>
+                            <span class="pc-key">T</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-
-        <table id="keybinds">
-            <tr>
-                <td>
-                    <span>Play notes</span>
-                </td>
-
-                <td>
-                    <span class="pc-key">1</span>
-                    <span>through</span>
-                    <span class="pc-key">Backspace</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <span>Raise octave</span>
-                </td>
-
-                <td>
-                    <span class="pc-key">↑</span>
-                    <span>or</span>
-                    <span class="pc-key">K</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <span>Lower octave</span>
-                </td>
-
-                <td>
-                    <span class="pc-key">↓</span>
-                    <span>or</span>
-                    <span class="pc-key">J</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <span>Toggle two-voices mode</span>
-                </td>
-
-                <td>
-                    <span class="pc-key">V</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <span>Change tuning system</span>
-                </td>
-
-                <td>
-                    <span class="pc-key">T</span>
-                </td>
-            </tr>
-        </table>
     </main>
 
     <script src="/static/js/index.js"></script>
