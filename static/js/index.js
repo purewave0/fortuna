@@ -597,4 +597,9 @@ document.addEventListener('DOMContentLoaded', () => {
     howtoButton.addEventListener('click', () => {
         MicroModal.show('modal-howto');
     });
+
+    const aboutButton = document.getElementById('show-about');
+    aboutButton.addEventListener('click', () => {
+        MicroModal.show('modal-about');
+    });
 });

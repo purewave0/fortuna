@@ -30,6 +30,15 @@ body {
     background-color: var(--background-color);
 }
 
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding-left: 0;
+    margin: 0;
+}
+
 #content {
     margin: 0 auto;
     display: flex;
@@ -273,7 +282,7 @@ body.hiding-bottom-panel #bottom-panel-content {
 }
 
 
-/* -- howto -- */
+/* -- howto modal -- */
 
 #modal-howto h3 {
     font-size: 12pt;
@@ -281,7 +290,6 @@ body.hiding-bottom-panel #bottom-panel-content {
 
 #keybinds {
     list-style-type: none;
-    padding-left: 0;
     font-size: 11pt;
 }
 
@@ -324,4 +332,94 @@ body.hiding-bottom-panel #bottom-panel-content {
     color: white;
     box-shadow: 0px -4px 0px 0px rgba(127,127,127,0.75) inset;
     user-select: none;
+}
+
+
+/* -- about modal -- */
+
+#modal-about-content {
+    margin-bottom: 0;
+}
+
+#about-logo {
+    font-size: 72pt;
+    background-color: darkred;
+    color: coral;
+}
+
+#about-separator {
+    fill: coral; /* TODO: primary colour */
+    width: 32px;
+    height: 32px;
+}
+
+#github-links {
+    display: flex;
+    flex-direction: row;
+    column-gap: 32px;
+}
+
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 8px;
+    flex: 1;
+    padding: 12px 24px;
+}
+
+.link > img,
+.link > svg {
+    width: 64px;
+    height: 64px;
+}
+
+.link-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    flex: 1;
+    text-align: center;
+}
+
+.link-info h2, .link-info p {
+    margin: 0;
+}
+
+.link-info h2 {
+    font-size: 14pt;
+}
+
+.link-info p {
+    font-size: 11pt;
+    opacity: 0.8;
+}
+
+.link-icon-wrapper {
+    display: flex;
+    align-content: center;
+    text-align: right;
+}
+
+/* -- project link -- */
+
+#link-project {
+    background-color: black;
+    color: white;
+}
+
+/* -- profile link -- */
+
+#link-profile {
+    background-color: #1e1f38;
+    color: white;
+}
+
+#link-profile img {
+    border-radius: 100%;
+}
+
+#link-profile #profile-name {
+    font-family: monospace;
+    color: #7dff7d;
 }
