@@ -3,6 +3,7 @@ body {
 
     --foreground-color: white;
     --background-color: whitesmoke; /* TODO */
+    --text-color: black;
     --border-color: rgba(150, 150, 150);
 
     --white-key-width: calc(100% / 8);
@@ -272,10 +273,45 @@ body.hiding-bottom-panel #bottom-panel-content {
 }
 
 
-/* -- keybinds -- */
+/* -- howto -- */
+
+#modal-howto h3 {
+    font-size: 12pt;
+}
 
 #keybinds {
     list-style-type: none;
+    padding-left: 0;
+    font-size: 11pt;
+}
+
+#keybinds li {
+    display: flex;
+    flex-direction: row;
+    padding: 8px 16px;
+    align-items: center;
+}
+
+#keybinds li:first-of-type {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#keybinds li:last-of-type {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#keybinds li:nth-child(odd) {
+    background-color: #ddd;
+}
+
+#keybinds li:nth-child(even) {
+    background-color: whitesmoke;
+}
+
+#keybinds li * {
+    flex: 1;
 }
 
 .pc-key {

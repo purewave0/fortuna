@@ -584,4 +584,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    const howtoButton = document.getElementById('show-howto');
+    howtoButton.addEventListener('click', () => {
+        MicroModal.show('modal-howto');
+    });
 });

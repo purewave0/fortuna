@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>fortuna</title>
-  <link rel="stylesheet" href="static/css/index.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>fortuna</title>
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="static/css/modal.css">
 </head>
 
 <body>
@@ -134,78 +135,151 @@
                 </div>
 
                 <div id="extras">
-                    <button id="show-preferences">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
-                        <span>Preferences…</span>
-                    </button>
-                    <button id="show-how-to-use">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+                    <button id="show-howto">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-360 100-60 100 60v-280H480v280Z"/></svg>
                         <span>How to use</span>
                     </button>
+                    <button id="show-about">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+                        <span>About</span>
+                    </button>
                 </div>
-
-                <!-- TODO: show this in a modal when 'How to use' is clicked -->
-                <table id="keybinds" hidden>
-                    <tr>
-                        <td>
-                            <span>Play notes</span>
-                        </td>
-
-                        <td>
-                            <span class="pc-key">1</span>
-                            <span>through</span>
-                            <span class="pc-key">Backspace</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span>Raise octave</span>
-                        </td>
-
-                        <td>
-                            <span class="pc-key">↑</span>
-                            <span>or</span>
-                            <span class="pc-key">K</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span>Lower octave</span>
-                        </td>
-
-                        <td>
-                            <span class="pc-key">↓</span>
-                            <span>or</span>
-                            <span class="pc-key">J</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span>Toggle two-voices mode</span>
-                        </td>
-
-                        <td>
-                            <span class="pc-key">V</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span>Change tuning system</span>
-                        </td>
-
-                        <td>
-                            <span class="pc-key">T</span>
-                        </td>
-                    </tr>
-                </table>
             </div>
         </div>
     </main>
 
+
+    <!-- modals -->
+
+    <div class="modal micromodal-slide" id="modal-howto" aria-hidden="true">
+        <!--
+            manually adding the onmousedown listener to avoid the modal closing
+            unexpectedly. see:
+            https://github.com/micromodal/Micromodal/issues/505#issuecomment-1358832696
+        -->
+        <div class="modal__overlay" tabindex="-1"
+            onmousedown="event.target.classList.contains('modal__overlay')
+                && MicroModal.close('modal-howto')">
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-howto-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-howto-title">
+                        How to use
+                    </h2>
+                    <button class="modal__close" aria-label="Close how to use" data-micromodal-close></button>
+                </header>
+
+                <main class="modal__content" id="modal-howto-content">
+                    <p>
+                        Play the pitch you want by either clicking on the desired key
+                        or using your keyboard (keybinds below).
+                    </p>
+                    <p>
+                        Play the corresponding note on your instrument and listen
+                        carefully. Adjust the tuning of your instrument until the note
+                        perfectly matches the drone from <b>fortuna</b> (i.e., the
+                        "beats" disappear).
+                    </p>
+
+                    <h3>Keybinds</h3>
+                    <ul id="keybinds">
+                        <li>
+                            <span>Play notes</span>
+
+                            <div>
+                                <span class="pc-key">1</span>
+                                <span>through</span>
+                                <span class="pc-key">Backspace</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Raise octave</span>
+
+                            <div>
+                                <span class="pc-key">↑</span>
+                                <span>or</span>
+                                <span class="pc-key">K</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Lower octave</span>
+
+                            <div>
+                                <span class="pc-key">↓</span>
+                                <span>or</span>
+                                <span class="pc-key">J</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Change mode</span>
+
+                            <div>
+                                <span class="pc-key">M</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Change tuning system</span>
+
+                            <div>
+                                <span class="pc-key">T</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Stop all notes</span>
+
+                            <div>
+                                <span class="pc-key">Esc</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h3>Tuning standard</h3>
+                    <p>
+                        The frequency of A4 (A in the 4th octave). All the other notes
+                        are pitched in relation to this note. 440 Hz is the most widely
+                        used today.
+                    </p>
+
+                    <h3>Tuning system</h3>
+                    <p>
+                        The system of spacing between the frequencies. Just Intonation
+                        uses <i>pure</i> intervals, so they sound very consonant.
+                        However, this makes intervals key-specific: a justly tuned scale
+                        in one key would sound bad in another, so all intervals
+                        must be recalculated.
+                    </p>
+                    <p>
+                        12 Equal Temperament solves this by spacing every note by the
+                        same ratio. This means the intervals are slightly impure
+                        (not as consonant), but at least every key is <i>equally</i>
+                        "out of tune", meaning you can modulate without having to
+                        readjust any frequencies.
+                    </p>
+                    <p>
+                        Generally, the choice of JI vs 12-ET depends on the
+                        instrumentation. If your or anyone else's instrument is fixed
+                        at 12-ET (pianos, guitars, etc.), everyone will follow 12-ET.
+                        However, if all instruments have flexible tuning (voices,
+                        violins, etc.), everyone will naturally favour JI.
+                    </p>
+
+                    <h3>Transposition</h3>
+                    <p>
+                        How many semitones lower the notes will sound. If you are using
+                        a transposing instrument, pick the appropriate option.
+                        For example, soprano clarinets are in B♭, alto saxophones in E♭,
+                        etc.
+                    </p>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/lib/micromodal.min.js"></script>
     <script src="static/js/index.js"></script>
 </body>
 
