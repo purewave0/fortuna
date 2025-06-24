@@ -237,12 +237,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    function playNote(hertz) {
+
+    function playNote(hertz, volume) {
         const oscillator = context.createOscillator();
 
-        oscillator.type = 'square';
+        const gain = context.createGain();
+        gain.gain.value = volume;
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+
+        oscillator.type = 'triangle';
         oscillator.frequency.value = hertz;
-        oscillator.connect(context.destination);
         oscillator.start();
 
         return oscillator;
@@ -394,7 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 * keyOctaveMultiplier
             );
 
-            if (activeKeys.length === 0) {
+            const isRoot = activeKeys.length === 0;
+            if (isRoot) {
                 key.classList.add('root');
             } else {
                 key.classList.add('secondary');
@@ -404,7 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: key.id,
                 note: key.dataset.note,
                 baseFrequency: baseFrequency,
-                oscillator: playNote(frequency),
+                oscillator: playNote(
+                    frequency,
+                    (isRoot) ? 0.6 : 0.4
+                ),
                 octaveMultiplier: keyOctaveMultiplier,
                 key: key,
             }
@@ -566,7 +575,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // interface interaction
 
     const allOptions = document.querySelectorAll('.option select, .option input');
-    console.log(allOptions);
 
     const hidePanel = document.getElementById('bottom-panel-hide');
     hidePanel.addEventListener('click', () => {
