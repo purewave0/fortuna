@@ -1,0 +1,29 @@
+/**
+ * light: default
+ * dark: dark interface but light keyboard
+ * midnight: dark keyboard and interface
+ * TODO: solarized?
+ */
+
+body[data-theme="dark"],
+body[data-theme="midnight"] {
+    --text-color: white;
+    --foreground-color: #1f1f1f;
+    --background-color: #101010;
+
+    --extras-button-hover-color: #2b6a2b;
+
+    --pc-key-color: var(--foreground-color);
+    --pc-key-shadow-color: var(--background-color);
+}
+
+
+body[data-theme="midnight"] {
+    --white-key-color: var(--foreground-color);
+    --white-key-border-color: var(--background-color);
+    --white-key-label-color: white;
+
+    --black-key-color: white;
+    --black-key-border-color: var(--background-color);
+    --black-key-label-color: black;
+}

@@ -41,7 +41,6 @@
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.25;
-  color: var(--text-color);
   box-sizing: border-box;
 }
 
@@ -53,13 +52,13 @@
 .modal__header .modal__close:before {
     content: "\2715";
     cursor: pointer;
+    color: var(--text-color);
 }
 
 .modal__content {
   margin-top: 2rem;
   margin-bottom: 2rem;
   line-height: 1.5;
-  color: rgba(0,0,0,.8);
 }
 
 .modal__btn {

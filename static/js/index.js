@@ -169,6 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
             key: 'transposition',
             default: 0,
         },
+        Theme: {
+            key: 'theme',
+            default: 'light',
+        },
 
         get(key) {
             return localStorage.getItem(key);
@@ -453,6 +457,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Options.set(Options.NoteLabels.key, noteLabelsOption.value);
     });
+
+
+    const themeOption = document.getElementById('theme');
+    themeOption.value = (
+        Options.get(Options.Theme.key)
+        || Options.Theme.default
+    );
+    themeOption.addEventListener('change', () => {
+        document.body.dataset.theme = themeOption.value;
+        Options.set(Options.Theme.key, themeOption.value);
+    });
+    themeOption.dispatchEvent(new Event('change'));
 
     function replayActiveKeys() {
         const activeKeyIds = activeKeys.map(key => key.id);
