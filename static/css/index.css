@@ -61,10 +61,13 @@ ul {
     width: 85%;
     margin: 0 auto;
     height: 52vh;
-    max-height: 550px;
     display: flex;
     flex-direction: row;
     position: relative;
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        max-height 0.2s ease;
 }
 
 .key {
@@ -177,6 +180,7 @@ ul {
     position: relative;
     margin: 0 24px 24px 24px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: width 0.2s ease;
 }
 
 #bottom-panel-header {
@@ -208,17 +212,18 @@ ul {
     flex-direction: row;
     column-gap: 48px;
     max-height: 300px;
+    max-width: 1000px;
     overflow: hidden;
+    /* widen, then heighten */
+    transition:
+        max-width 0.4s ease-in-out,
+        max-height 0.2s ease 0.3s;
 }
 
 body.hiding-bottom-panel #keyboard {
     width: 95%;
+    max-height: 80vh;
     height: 80vh;
-    max-height: initial;
-}
-
-body.hiding-bottom-panel #bottom-panel {
-    width: fit-content;
 }
 
 body.hiding-bottom-panel #bottom-panel-header {
@@ -227,7 +232,11 @@ body.hiding-bottom-panel #bottom-panel-header {
 
 body.hiding-bottom-panel #bottom-panel-content {
     max-height: 0;
-    width: 0;
+    max-width: 0;
+    /* shorten, then narrow */
+    transition:
+        max-height 0.2s ease,
+        max-width 0.4s ease-in-out 0.1s;
 }
 
 
