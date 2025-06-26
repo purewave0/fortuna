@@ -34,9 +34,12 @@ body {
 
     --extras-button-hover-color: var(--primary-color);
 
+    --keybind-row-odd-color:  rgba(127, 127, 127, 0.3);
+    --keybind-row-even-color: rgba(127, 127, 127, 0.1);
+
     --pc-key-color: #535356;
     --pc-key-shadow-color: rgba(127,127,127,0.75);
-    --pc-key-text-color: white;
+    --pc-key-text-color: var(--text-inverted-color);
 
     margin: 0;
     font-family: sans-serif;
@@ -345,14 +348,14 @@ body.hiding-bottom-panel #bottom-panel-content {
 }
 
 #keybinds li:nth-child(odd) {
-    background-color: rgba(127, 127, 127, 0.3);
+    background-color: var(--keybind-row-odd-color);
 }
 
 #keybinds li:nth-child(even) {
-    background-color: rgba(127, 127, 127, 0.1);
+    background-color: var(--keybind-row-even-color);
 }
 
-#keybinds li * {
+#keybinds li > * {
     flex: 1;
 }
 

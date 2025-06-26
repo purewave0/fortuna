@@ -7,11 +7,14 @@
 
 body[data-theme="dark"],
 body[data-theme="midnight"] {
-    --text-color: white;
-    --foreground-color: #1f1f1f;
-    --background-color: #101010;
+    --text-color: #fff8ea;
+    --foreground-color: #1f1f25;
+    --background-color: #101015;
 
     --extras-button-hover-color: #a90a34;
+
+    --keybind-row-odd-color:  rgba(100, 100, 127, 0.3);
+    --keybind-row-even-color: rgba(100, 100, 127, 0.1);
 
     --pc-key-color: var(--foreground-color);
     --pc-key-shadow-color: var(--background-color);
@@ -19,18 +22,20 @@ body[data-theme="midnight"] {
 
 
 body[data-theme="midnight"] {
+    --text-inverted-color: var(--text-color);
+
     --white-key-color: var(--foreground-color);
     --white-key-border-color: var(--background-color);
     --white-key-secondary-color: var(--secondary-dark-color); /* default is too light */
     --white-key-hover-color: #ffadad;
-    --white-key-label-color: white;
+    --white-key-label-color: var(--text-color);
 
-    --black-key-color: white;
+    --black-key-color: var(--text-color);
     --black-key-border-color: var(--background-color);
     --black-key-label-color: black;
 }
 
-/* when hovering, as the color is light, always make labels black */
+/* when hovering, as the colour is light, always make labels black */
 body[data-theme="midnight"] button.key:not(.root):not(.secondary):hover > .note-label {
     color: black;
 }
