@@ -10,6 +10,7 @@ body[data-theme="midnight"] {
     --text-color: white;
     --foreground-color: #1f1f1f;
     --background-color: #101010;
+    --primary-color: #b03a3a;
 
     --extras-button-hover-color: #2b6a2b;
 

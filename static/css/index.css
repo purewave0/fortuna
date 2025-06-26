@@ -3,7 +3,10 @@ body {
 
     --foreground-color: white;
     --background-color: whitesmoke; /* TODO */
+    --primary-color: #e85551;
+
     --text-color: black;
+    --text-inverted-color: white;
     --border-color: rgba(150, 150, 150);
 
     --white-key-width: calc(100% / 8);
@@ -24,8 +27,6 @@ body {
     --black-key-hover-color: #ffbabd;
     --black-key-secondary-color: #2443a2;
     --black-key-label-color: white;
-
-    --extras-button-hover-color: lightgreen; /* TODO */
 
     --pc-key-color: #535356;
     --pc-key-shadow-color: rgba(127,127,127,0.75);
@@ -289,15 +290,24 @@ body.hiding-bottom-panel #bottom-panel-content {
     display: flex;
     align-items: center;
     column-gap: 4px;
-}
-
-#extras button:hover {
-    background-color: var(--extras-button-hover-color);
+    transition: background-color 0.1s ease, color 0.1s ease;
 }
 
 #extras button svg {
     fill: var(--text-color);
+    transition: fill 0.1s ease;
 }
+
+
+#extras button:hover {
+    background-color: var(--primary-color);
+    color: var(--text-inverted-color);
+}
+
+#extras button:hover svg {
+    fill: var(--text-inverted-color);
+}
+
 
 
 /* -- howto modal -- */
@@ -360,13 +370,12 @@ body.hiding-bottom-panel #bottom-panel-content {
 }
 
 #about-logo {
-    font-size: 72pt;
-    background-color: darkred;
-    color: coral;
+    width: 192px;
+    height: 192px;
 }
 
 #about-separator {
-    fill: coral; /* TODO: primary colour */
+    fill: var(--primary-color);
     width: 32px;
     height: 32px;
 }
