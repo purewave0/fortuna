@@ -1,7 +1,7 @@
 /**
  * light: default
  * dark: dark interface but light keyboard
- * midnight: dark keyboard and interface
+ * midnight: dark everything
  * TODO: solarized?
  */
 
@@ -10,9 +10,8 @@ body[data-theme="midnight"] {
     --text-color: white;
     --foreground-color: #1f1f1f;
     --background-color: #101010;
-    --primary-color: #b03a3a;
 
-    --extras-button-hover-color: #2b6a2b;
+    --extras-button-hover-color: #a90a34;
 
     --pc-key-color: var(--foreground-color);
     --pc-key-shadow-color: var(--background-color);
@@ -22,9 +21,16 @@ body[data-theme="midnight"] {
 body[data-theme="midnight"] {
     --white-key-color: var(--foreground-color);
     --white-key-border-color: var(--background-color);
+    --white-key-secondary-color: var(--secondary-dark-color); /* default is too light */
+    --white-key-hover-color: #ffadad;
     --white-key-label-color: white;
 
     --black-key-color: white;
     --black-key-border-color: var(--background-color);
     --black-key-label-color: black;
+}
+
+/* when hovering, as the color is light, always make labels black */
+body[data-theme="midnight"] button.key:not(.root):not(.secondary):hover > .note-label {
+    color: black;
 }

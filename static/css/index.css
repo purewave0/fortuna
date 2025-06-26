@@ -3,7 +3,11 @@ body {
 
     --foreground-color: white;
     --background-color: whitesmoke; /* TODO */
-    --primary-color: #e85551;
+
+    --primary-color: #f50041;
+    --primary-light-color: #fdd4d4;
+    --secondary-color: #758bfd;
+    --secondary-dark-color: #4a60cc;
 
     --text-color: black;
     --text-inverted-color: white;
@@ -16,17 +20,19 @@ body {
 
     --white-key-color: white;
     --white-key-border-color: black;
-    --white-key-root-color: #f93943;
-    --white-key-hover-color: #fcb0b3;
-    --white-key-secondary-color: #4a72ee;
+    --white-key-root-color: var(--primary-color);
+    --white-key-hover-color: var(--primary-light-color);
+    --white-key-secondary-color: var(--secondary-color);
     --white-key-label-color: black;
 
     --black-key-color: black;
     --black-key-border-color: black;
-    --black-key-root-color: #f93943;
-    --black-key-hover-color: #ffbabd;
-    --black-key-secondary-color: #2443a2;
+    --black-key-root-color: var(--primary-color);
+    --black-key-hover-color: var(--primary-light-color);
+    --black-key-secondary-color: var(--secondary-dark-color);
     --black-key-label-color: white;
+
+    --extras-button-hover-color: var(--primary-color);
 
     --pc-key-color: #535356;
     --pc-key-shadow-color: rgba(127,127,127,0.75);
@@ -300,7 +306,7 @@ body.hiding-bottom-panel #bottom-panel-content {
 
 
 #extras button:hover {
-    background-color: var(--primary-color);
+    background-color: var(--extras-button-hover-color);
     color: var(--text-inverted-color);
 }
 
@@ -375,7 +381,7 @@ body.hiding-bottom-panel #bottom-panel-content {
 }
 
 #about-separator {
-    fill: var(--primary-color);
+    fill: var(--secondary-color);
     width: 32px;
     height: 32px;
 }
