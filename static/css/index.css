@@ -2,7 +2,7 @@ body {
     --content-max-width: 1200px;
 
     --foreground-color: white;
-    --background-color: whitesmoke; /* TODO */
+    --background-color: #efeff7;
 
     --primary-color: #f50041;
     --primary-light-color: #fdd4d4;
