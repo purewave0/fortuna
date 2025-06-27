@@ -32,10 +32,10 @@ body[data-theme="midnight"] {
 
     --black-key-color: var(--text-color);
     --black-key-border-color: var(--background-color);
+    --black-key-hover-color: #ffbdbd;
     --black-key-label-color: black;
 }
 
-/* when hovering, as the colour is light, always make labels black */
-body[data-theme="midnight"] button.key:not(.root):not(.secondary):hover > .note-label {
+body[data-theme="midnight"] button.key.white:not(.root):not(.secondary):hover > .note-label {
     color: black;
 }

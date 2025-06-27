@@ -31,6 +31,7 @@ body {
     --black-key-hover-color: var(--primary-light-color);
     --black-key-secondary-color: var(--secondary-dark-color);
     --black-key-label-color: white;
+    --black-key-hover-label-color: black;
 
     --extras-button-hover-color: var(--primary-color);
 
@@ -134,7 +135,7 @@ ul {
 }
 
 .key.black:not(.root):not(.secondary):hover .note-label {
-    color: var(--white-key-label-color);
+    color: var(--black-key-hover-label-color);
 }
 
 .key.black.root {
