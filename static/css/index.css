@@ -11,7 +11,7 @@ body {
 
     --text-color: black;
     --text-inverted-color: white;
-    --border-color: rgba(150, 150, 150);
+    --border-color: rgb(150, 150, 150);
 
     --white-key-width: calc(100% / 8);
     --black-key-width: calc(var(--white-key-width) / 2);
@@ -36,11 +36,11 @@ body {
 
     --extras-button-hover-color: var(--primary-color);
 
-    --keybind-row-odd-color:  rgba(127, 127, 127, 0.3);
-    --keybind-row-even-color: rgba(127, 127, 127, 0.1);
+    --keybind-row-odd-color:  rgba(127, 127, 160, 0.3);
+    --keybind-row-even-color: rgba(127, 127, 160, 0.1);
 
-    --pc-key-color: #535356;
-    --pc-key-shadow-color: rgba(127,127,127,0.75);
+    --pc-key-color: #535369;
+    --pc-key-shadow-color: rgba(140,140,160,0.75);
     --pc-key-text-color: var(--text-inverted-color);
 
     margin: 0;
