@@ -174,6 +174,7 @@ ul {
     margin-bottom: 32px;
     font-size: 28pt;
     color: var(--white-key-label-color);
+    user-select: none;
 }
 
 .key.black > .note-label {
@@ -231,23 +232,26 @@ ul {
         max-height 0.2s ease 0.3s;
 }
 
-body.hiding-bottom-panel #keyboard {
-    width: 95%;
-    max-height: 80vh;
-    height: 80vh;
-}
+/* restrict hiding the bottom panel to PCs only */
+@media screen and (min-width: 769px) {
+    body.hiding-bottom-panel #keyboard {
+        width: 95%;
+        max-height: 80vh;
+        height: 80vh;
+    }
 
-body.hiding-bottom-panel #bottom-panel-header {
-    margin: 8px 0;
-}
+    body.hiding-bottom-panel #bottom-panel-header {
+        margin: 8px 0;
+    }
 
-body.hiding-bottom-panel #bottom-panel-content {
-    max-height: 0;
-    max-width: 0;
-    /* shorten, then narrow */
-    transition:
-        max-height 0.2s ease,
-        max-width 0.4s ease-in-out 0.1s;
+    body.hiding-bottom-panel #bottom-panel-content {
+        max-height: 0;
+        max-width: 0;
+        /* shorten, then narrow */
+        transition:
+            max-height 0.2s ease,
+            max-width 0.4s ease-in-out 0.1s;
+    }
 }
 
 
