@@ -560,10 +560,15 @@ document.addEventListener('DOMContentLoaded', () => {
     addEventListener("keydown", (event) => {
         // whether the key was pressed while the user was focusing on an option
         // dropdown.
-        // used so we don't interfere with the option's default controls (up/down for
-        // cycling between <option>s inside the <select>)
-        const pressedInsideDropdown = event.target.nodeName === 'SELECT';
-        if (event.defaultPrevented || pressedInsideDropdown) {
+        const shouldIgnore = (
+            // don't interfere with common shortcuts (Alt+number for tabs, Ctrl =/- to
+            // zoom in/out, etc.)
+            event.ctrlKey || event.shiftKey || event.altKey
+            // don't interfere with the <select> default controls (up/down for cycling
+            // between <option>s)
+            || event.target.nodeName === 'SELECT'
+        );
+        if (event.defaultPrevented || shouldIgnore) {
             return;
         }
 
