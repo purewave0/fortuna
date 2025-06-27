@@ -14,9 +14,10 @@ body {
     --border-color: rgba(150, 150, 150);
 
     --white-key-width: calc(100% / 8);
-    --black-key-left-offset: calc(var(--white-key-width) / 5);   /* slight right bias */
-    --black-key-center-offset: calc(var(--white-key-width) / 4); /* centered */
-    --black-key-right-offset: calc(var(--white-key-width) / 3);  /* slight left bias */
+    --black-key-width: calc(var(--white-key-width) / 2);
+    --black-key-left-offset:   calc(var(--white-key-width) / 5);  /* slight right bias */
+    --black-key-center-offset: calc(var(--white-key-width) / 4);  /* centered */
+    --black-key-right-offset:  calc(var(--white-key-width) / 3);  /* slight left bias */
 
     --white-key-color: white;
     --white-key-border-color: black;
@@ -123,8 +124,7 @@ ul {
 .key.black {
     border-top: 4px solid var(--black-key-border-color);
     height: 60%;
-    /* TODO: widen black keys */
-    width: calc(var(--white-key-width) / 2);
+    width: var(--black-key-width);
     background-color: var(--black-key-color);
     position: absolute;
     z-index: 2;

@@ -4,6 +4,12 @@
         /* don't change colours when hovering, as it doesn't work properly on mobile. */
         --white-key-hover-color: var(--white-key-color);
         --black-key-hover-color: var(--black-key-color);
+
+        /* widen black keys */
+        --black-key-width: calc(var(--white-key-width) / 1.5);
+        --black-key-left-offset: calc(var(--white-key-width) / 3.75);
+        --black-key-center-offset: calc(var(--white-key-width) / 3);
+        --black-key-right-offset: calc(var(--white-key-width) / 2.25);
     }
 
     /* hover colour is too light, so white text would have bad contrast on white keys */
@@ -36,9 +42,8 @@
         margin-bottom: 16px;
     }
 
-    /* TODO: widen black keys. too narrow right now */
     .key.black > .note-label {
-        font-size: 9pt;
+        font-size: 10pt;
     }
 
 
