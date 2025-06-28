@@ -67,6 +67,11 @@
         margin-bottom: 16px;
     }
 
+    #bottom-panel-title {
+        font-size: 14pt;
+    }
+
+
     #bottom-panel-hide {
         /* no point in hiding the panel on narrow screens like phones */
         display: none;
