@@ -29,4 +29,5 @@ Straightforward open-source drone tuner.
 
 - [Wikipedia](https://en.wikipedia.org/) for information on Tuning Standards and Tuning Systems
 - [Google's Material Symbols](https://fonts.google.com/icons) for the SVG icons
+- [Google Fonts](https://fonts.google.com/) for the Roboto font
 - [MicroModal](https://micromodal.vercel.app/) for the modals
