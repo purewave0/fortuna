@@ -20,7 +20,11 @@
     }
 
     #content {
-        row-gap: 16px;
+        row-gap: 8px;
+    }
+
+    #fortuna-name {
+        font-size: 16pt;
     }
 
 
