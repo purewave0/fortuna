@@ -44,13 +44,17 @@ body {
     --pc-key-text-color: var(--text-inverted-color);
 
     margin: 0;
-    font-family: sans-serif;
+    font-family: Roboto;
     color: var(--text-color);
     background-color: var(--background-color);
 }
 
 a {
     text-decoration: none;
+}
+
+button {
+    font-family: inherit;
 }
 
 ul {
