@@ -629,4 +629,24 @@ document.addEventListener('DOMContentLoaded', () => {
     aboutButton.addEventListener('click', () => {
         MicroModal.show('modal-about');
     });
+
+    let wasPreviouslyPrimaryColor = false;
+    const fortunaName = document.getElementById('fortuna-name');
+    fortunaName.addEventListener('click', () => {
+        const colorRule = (wasPreviouslyPrimaryColor)
+            ? 'var(--secondary-color)'
+            : 'var(--primary-color)';
+        fortunaName.animate(
+            [
+                { color: colorRule },
+                { color: 'var(--text-color)' },
+            ],
+            {
+                duration: 700,
+                easing: 'ease-in-out',
+            }
+        );
+
+        wasPreviouslyPrimaryColor = !wasPreviouslyPrimaryColor
+    });
 });
