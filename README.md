@@ -2,6 +2,10 @@
 
 Straightforward open-source drone tuner.
 
+![fortuna screenshot](fortuna.png "Screenshot")
+
+[Try it out live!](https://purewave0.github.io/fortuna)
+
 - Easy to use
 - Customisable
 - Responsive
