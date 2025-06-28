@@ -127,6 +127,11 @@
         padding: 6px 6px 8px 6px;
     }
 
+    .pc-key svg {
+        width: 9pt;  /* match the font-size */
+        height: 9pt;
+    }
+
 
     /* -- about modal -- */
 

@@ -381,6 +381,19 @@ ul {
     user-select: none;
 }
 
+/* some pc-keys contain an svg instead */
+.pc-key svg {
+    width: 11pt;  /* match the font-size */
+    height: 11pt;
+    fill: var(--pc-key-text-color);
+}
+
+#down-arrow-icon {
+    /* the icon itself is a bit too high. adjust it */
+    position: relative;
+    top: 2px;
+}
+
 
 /* -- about modal -- */
 
