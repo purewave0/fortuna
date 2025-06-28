@@ -557,6 +557,24 @@ document.addEventListener('DOMContentLoaded', () => {
         tuningSystemOption.dispatchEvent(new Event('change'));
     }
 
+    function toggleBottomPanel() {
+        if (!document.body.classList.contains('hiding-bottom-panel')) {
+            document.body.classList.add('hiding-bottom-panel');
+            // 'expand' icon
+            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-120v-240h80v104l124-124 56 56-124 124h104v80H120Zm516-460-56-56 124-124H600v-80h240v240h-80v-104L636-580Z"/></svg>';
+            for (const option of allOptions) {
+                option.disabled = true;
+            }
+        } else {
+            document.body.classList.remove('hiding-bottom-panel');
+            // 'contract' icon
+            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z"/></svg>';
+            for (const option of allOptions) {
+                option.disabled = false;
+            }
+        }
+    }
+
     addEventListener("keydown", (event) => {
         // whether the key was pressed while the user was focusing on an option
         // dropdown.
@@ -585,6 +603,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cycleTuningSystems();
         } else if (event.key === 'Escape') {
             stopActiveKeys();
+        } else if (event.key === 'h') {
+            toggleBottomPanel();
         } else {
             return;
         }
@@ -598,21 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const allOptions = document.querySelectorAll('.option select, .option input');
 
     const hidePanel = document.getElementById('bottom-panel-hide');
-    hidePanel.addEventListener('click', () => {
-        if (!document.body.classList.contains('hiding-bottom-panel')) {
-            document.body.classList.add('hiding-bottom-panel');
-            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-120v-240h80v104l124-124 56 56-124 124h104v80H120Zm516-460-56-56 124-124H600v-80h240v240h-80v-104L636-580Z"/></svg>';
-            for (const option of allOptions) {
-                option.disabled = true;
-            }
-        } else {
-            document.body.classList.remove('hiding-bottom-panel');
-            hidePanel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z"/></svg>';
-            for (const option of allOptions) {
-                option.disabled = false;
-            }
-        }
-    });
+    hidePanel.addEventListener('click', toggleBottomPanel);
 
     const howtoButton = document.getElementById('show-howto');
     howtoButton.addEventListener('click', () => {
