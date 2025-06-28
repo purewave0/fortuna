@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    function playNote(hertz, volume) {
+    function playFrequency(hertz, volume) {
         const oscillator = context.createOscillator();
 
         const gain = context.createGain();
@@ -260,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeKeys = [];
 
-    // TODO: chord mode?
     const modeOption = document.getElementById('mode');
     modeOption.value = (
         Options.get(Options.Mode.key) || Options.Mode.default
@@ -320,20 +319,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 : 1;
 
             if (activeKeys.length > 0) {
-                const correspondentKeyIndex = activeKeys.findIndex(
+                const correspondingKeyIndex = activeKeys.findIndex(
                     (activeKey) => activeKey.id === key.id
                 );
-                const clickedOnActiveKey = correspondentKeyIndex !== -1;
+                const clickedOnActiveKey = correspondingKeyIndex !== -1;
                 if (clickedOnActiveKey) {
                     // clicking on any active key, no matter the mode, always turns it
                     // off
-                    const correspondentKey = activeKeys[correspondentKeyIndex];
-                    correspondentKey.oscillator.stop();
-                    correspondentKey.key.classList.remove('root', 'secondary');
+                    const correspondingKey = activeKeys[correspondingKeyIndex];
+                    correspondingKey.oscillator.stop();
+                    correspondingKey.key.classList.remove('root', 'secondary');
 
-                    activeKeys.splice(correspondentKeyIndex, 1);
+                    activeKeys.splice(correspondingKeyIndex, 1);
 
-                    const wasRootStopped = correspondentKeyIndex === 0;
+                    const wasRootStopped = correspondingKeyIndex === 0;
                     if (
                         activeKeys.length === 1
                         && wasRootStopped
@@ -414,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: key.id,
                 note: key.dataset.note,
                 baseFrequency: baseFrequency,
-                oscillator: playNote(
+                oscillator: playFrequency(
                     frequency,
                     (isRoot) ? 0.6 : 0.4
                 ),
@@ -590,9 +589,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const correspondentKey = controlToKeyMapping[event.key];
-        if (correspondentKey) {
-            correspondentKey.click();
+        const correspondingKey = controlToKeyMapping[event.key];
+        if (correspondingKey) {
+            correspondingKey.click();
         } else if (event.key === 'ArrowUp' || event.key === 'k') {
             increaseOctave();
         } else if (event.key === 'ArrowDown' || event.key === 'j') {
