@@ -1,8 +1,8 @@
 /**
- * light: default
- * dark: dark interface but light keyboard
+ * Interface themes.
+ * light:    default
+ * dark:     dark interface but light keyboard
  * midnight: dark everything
- * TODO: solarized?
  */
 
 body[data-theme="dark"],

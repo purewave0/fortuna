@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const scaleLength = notes.length;
     const aIndex = notes.indexOf('a');
 
+    /**
+     * Has no pure intervals, but ensures consistent interval spacing across all keys.
+     * Preferred for instruments with fixed keys/frets like piano, guitar, etc.
+     */
     const TwelveEqualTemperament = {
         SEMITONE_RATIO: 2**(1/12),
 
@@ -49,6 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     };
 
+    /**
+     * Produces key-dependent-intervals, but they are all very pure/harmonious.
+     * Preferred for instruments with flexible pitch like voice, violin, trombone, etc.
+     */
     const JustIntonation = {
         ratioByInterval: {
             0:  1/1,    // unison
@@ -242,6 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
+    /**
+     * Plays the `hertz` frequency at the given volume (from 0.0 to 1.0).
+     */
     function playFrequency(hertz, volume) {
         const oscillator = context.createOscillator();
 
@@ -424,12 +435,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    /**
+     * Clear all note labels from the keyboard keys.
+     */
     function clearNoteLabels() {
         for (let i=0; i<keys.length; i++) {
             keys[i].firstElementChild.innerHTML = '';
         }
     }
 
+    /**
+     * Set the note labels for each keyboard key.
+     */
     function setNoteLabels(labels) {
         for (let i=0; i<keys.length; i++) {
             keys[i].firstElementChild.textContent = labels[i];
@@ -469,6 +487,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     themeOption.dispatchEvent(new Event('change'));
 
+    /**
+     * Stop all active (currently playing) keys then play them again, following the
+     * original order.
+     * Useful for applying option changes.
+     */
     function replayActiveKeys() {
         const activeKeyIds = activeKeys.map(key => key.id);
 
@@ -485,6 +508,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    /**
+     * Stop all active (currently playing) keys.
+     */
     function stopActiveKeys() {
         const activeKeyIds = activeKeys.map(key => key.id);
 
@@ -510,6 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'Backspace': keys[12],
     };
 
+    /**
+     * Increase 1 octave and apply changes.
+     */
     function increaseOctave() {
         const lastIndex = octaveOption.childElementCount - 1;
         if (octaveOption.selectedIndex+1 > lastIndex) {
@@ -522,6 +552,9 @@ document.addEventListener('DOMContentLoaded', () => {
         octaveOption.dispatchEvent(new Event('change'));
     }
 
+    /**
+     * Decrease 1 octave and apply changes.
+     */
     function decreaseOctave() {
         if (octaveOption.selectedIndex-1 < 0) {
             // already at the minimum
@@ -532,6 +565,11 @@ document.addEventListener('DOMContentLoaded', () => {
         octaveOption.dispatchEvent(new Event('change'));
     }
 
+    /**
+     * Switch between single-voice and two-voice modes and apply changes.
+     * If going from two- to single-voice mode, the secondary active key will be
+     * stopped.
+     */
     function cycleMode() {
         const lastIndex = modeOption.childElementCount - 1;
         if (modeOption.selectedIndex+1 > lastIndex) {
@@ -544,6 +582,9 @@ document.addEventListener('DOMContentLoaded', () => {
         modeOption.dispatchEvent(new Event('change'));
     }
 
+    /**
+     * Switch between 12 Equal Temperament and Just Intonation and apply changes.
+     */
     function cycleTuningSystems() {
         const lastIndex = tuningSystemOption.childElementCount - 1;
         if (tuningSystemOption.selectedIndex+1 > lastIndex) {
@@ -556,6 +597,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tuningSystemOption.dispatchEvent(new Event('change'));
     }
 
+    /**
+     * Switch between hiding and showing the bottom panel.
+     * When the panel is hidden, the keyboard increases in height and width.
+     */
     function toggleBottomPanel() {
         if (!document.body.classList.contains('hiding-bottom-panel')) {
             document.body.classList.add('hiding-bottom-panel');
@@ -612,7 +657,8 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
     }, true);
 
-    // interface interaction
+
+    // -- interface interaction --
 
     const allOptions = document.querySelectorAll('.option select, .option input');
 
