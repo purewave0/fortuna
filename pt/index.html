@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>fortuna</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/themes.css">
+    <link rel="stylesheet" href="../static/css/fonts.css">
+    <link rel="stylesheet" href="../static/css/modal.css">
+    <link rel="stylesheet" href="../static/css/responsive.css">
+    <link rel="icon" type="image/png" href="../static/icons/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="../static/icons/fortuna.svg"/>
+    <link rel="shortcut icon" href="../static/icons/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/icons/apple-touch-icon.png"/>
+    <meta name="apple-mobile-web-app-title" content="fortuna"/>
+    <link rel="manifest" href="../static/icons/site.webmanifest"/>
+</head>
+
+<body>
+    <main id="content">
+        <div id="keyboard">
+            <button class="key white" data-note="c" id="c">
+                <span class="note-label"></span>
+            </button>
+            <button class="key black" data-note="c#" id="c#">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="d" id="d">
+                <span class="note-label"></span>
+            </button>
+            <button class="key black" data-note="d#" id="d#">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="e" id="e">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="f" id="f">
+                <span class="note-label"></span>
+            </button>
+            <button class="key black" data-note="f#" id="f#">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="g" id="g">
+                <span class="note-label"></span>
+            </button>
+            <button class="key black" data-note="g#" id="g#">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="a" id="a">
+                <span class="note-label"></span>
+            </button>
+            <button class="key black" data-note="a#" id="a#">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="b" id="b">
+                <span class="note-label"></span>
+            </button>
+            <button class="key white" data-note="c" data-octave-multiplier="2" id="c2">
+                <span class="note-label"></span>
+            </button>
+        </div>
+
+        <h1 id="fortuna-name">fortuna</h1>
+
+        <div id="bottom-panel">
+            <div id="bottom-panel-header">
+                <h2 id="bottom-panel-title">Options</h2>
+                <button id="bottom-panel-hide">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z"/></svg>
+                </button>
+            </div>
+            <div id="bottom-panel-content">
+                <div id="options">
+                    <div id="mode-option" class="option">
+                        <label for="mode">Mode</label>
+                        <select id="mode">
+                            <option value="single-voice">Single-voice</option>
+                            <option value="two-voice">Two-voice</option>
+                        </select>
+                    </div>
+
+                    <div id="note-labels-option" class="option">
+                        <label for="note-labels">Note labels</label>
+                        <select id="note-labels">
+                            <option value="none">No labels</option>
+                            <option value="c">C, D, E…</option>
+                            <option value="do-si">Do, Re, Mi…, Si</option>
+                            <option value="do-ti">Do, Re, Mi…, Ti</option>
+                        </select>
+                    </div>
+
+                    <div id="octave-option" class="option">
+                        <label for="octave">Octave</label>
+                        <select id="octave">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4 (middle)</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
+
+                    <div id="tuning-standard-option" class="option">
+                        <label for="tuning-standard">Tuning standard</label>
+                        <select id="tuning-standard">
+                            <option value="415">A415</option>
+                            <option value="432">A432</option>
+                            <option value="440" selected>A440 (default)</option>
+                            <option value="441">A441</option>
+                            <option value="442">A442</option>
+                            <option value="443">A443</option>
+                            <option value="444">A444</option>
+                        </select>
+                    </div>
+
+                    <div id="tuning-system-option" class="option">
+                        <label for="tuning-system">Tuning system</label>
+                        <select id="tuning-system">
+                            <option value="12et" selected>12-ET (default)</option>
+                            <option value="just-intonation">Just Intonation</option>
+                        </select>
+                    </div>
+
+                    <div id="transposition-option" class="option">
+                        <label for="transposition">Transposition</label>
+                        <select id="transposition">
+                            <option value="0">None</option>
+                            <option value="1">C → B</option>
+                            <option value="2">C → B♭</option>
+                            <option value="3">C → A</option>
+                            <option value="4">C → A♭</option>
+                            <option value="5">C → G</option>
+                            <option value="6">C → G♭</option>
+                            <option value="7">C → F</option>
+                            <option value="8">C → E</option>
+                            <option value="9">C → E♭</option>
+                            <option value="10">C → D</option>
+                            <option value="11">C → D♭</option>
+                        </select>
+                    </div>
+
+                    <div id="theme-option" class="option">
+                        <label for="theme">Theme</label>
+                        <select id="theme">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="midnight">Midnight</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="extras">
+                    <button id="show-howto">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-360 100-60 100 60v-280H480v280Z"/></svg>
+                        <span>How to use</span>
+                    </button>
+                    <button id="show-about">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+                        <span>About</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- modals -->
+
+    <div class="modal micromodal-slide" id="modal-howto" aria-hidden="true">
+        <!--
+            manually adding the onmousedown listener to avoid the modal closing
+            unexpectedly. see:
+            https://github.com/micromodal/Micromodal/issues/505#issuecomment-1358832696
+        -->
+        <div class="modal__overlay" tabindex="-1"
+            onmousedown="event.target.classList.contains('modal__overlay')
+                && MicroModal.close('modal-howto')">
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-howto-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-howto-title">
+                        How to use
+                    </h2>
+                    <button class="modal__close" aria-label="Close how to use" data-micromodal-close></button>
+                </header>
+
+                <main class="modal__content" id="modal-howto-content">
+                    <p>
+                        Play the pitch you want by either clicking on the desired key
+                        or using your keyboard (keybinds below).
+                    </p>
+                    <p>
+                        Play the corresponding note on your instrument and listen
+                        carefully. Adjust the tuning of your instrument until the note
+                        perfectly matches the drone from <b>fortuna</b> (i.e., the
+                        "beats" disappear).
+                    </p>
+
+                    <h3>Keybinds</h3>
+                    <ul id="keybinds">
+                        <li>
+                            <span>Play notes</span>
+
+                            <div>
+                                <span class="pc-key">1</span>
+                                <span>through</span>
+                                <span class="pc-key">Backspace</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Raise octave</span>
+
+                            <div>
+                                <span class="pc-key">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="WHITE">
+                                        <path d="M426-128v-499L204-405l-76-76 351-351 353 353-76 76-224-224v499H426Z"/>
+                                    </svg>
+                                </span>
+                                <span>or</span>
+                                <span class="pc-key">K</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Lower octave</span>
+
+                            <div>
+                                <span class="pc-key">
+                                    <svg id="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="WHITE">
+                                        <path d="M426-832v499L204-555l-76 76 351 351 353-353-76-76-224 224v-499H426Z"/>
+                                    </svg>
+                                </span>
+                                <span>or</span>
+                                <span class="pc-key">J</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Change mode</span>
+
+                            <div>
+                                <span class="pc-key">M</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Change tuning system</span>
+
+                            <div>
+                                <span class="pc-key">T</span>
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Stop all notes</span>
+
+                            <div>
+                                <span class="pc-key">Esc</span>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <span>Toggle bottom panel</span>
+
+                            <div>
+                                <span class="pc-key">H</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h3>Tuning standard</h3>
+                    <p>
+                        The frequency of A4 (A in the 4th octave). All the other notes
+                        are pitched in relation to this note. 440 Hz is the most widely
+                        used today.
+                    </p>
+
+                    <h3>Tuning system</h3>
+                    <p>
+                        The system of spacing between the frequencies. Just Intonation
+                        uses <i>pure</i> intervals, so they sound very consonant.
+                        However, this makes intervals key-specific: a justly tuned scale
+                        in one key would sound bad in another, so all intervals
+                        must be recalculated.
+                    </p>
+                    <p>
+                        12-Equal Temperament deals with this by spacing every note by
+                        the same ratio. This makes the intervals slightly imperfect
+                        (not as consonant), but at least every key is <i>equally</i>
+                        "out of tune", meaning you can modulate without having to
+                        readjust any frequencies.
+                    </p>
+                    <p>
+                        Generally, the choice between JI vs 12-ET depends on the
+                        instrumentation. If your or anyone else's instrument is fixed
+                        at 12-ET (pianos, guitars, etc.), everyone will follow 12-ET.
+                        However, if all instruments have flexible tuning (voices,
+                        violins, etc.), everyone will naturally favour JI.
+                    </p>
+
+                    <h3>Transposition</h3>
+                    <p>
+                        How many semitones lower the notes will sound. If you are using
+                        a transposing instrument, pick the appropriate option.
+                        For example, soprano clarinets are in B♭, alto saxophones in E♭,
+                        etc.
+                    </p>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal micromodal-slide" id="modal-about" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1"
+            onmousedown="event.target.classList.contains('modal__overlay')
+                && MicroModal.close('modal-about')">
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-about-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-about-title">
+                        About
+                    </h2>
+                    <button class="modal__close" aria-label="Close order" data-micromodal-close></button>
+                </header>
+                <main class="modal__content" id="modal-about-content">
+                    <center>
+                    <h3>fortuna</h3>
+                    <img id="about-logo" src="../static/icons/fortuna.svg">
+                    <p>Straightforward open-source drone tuner.</p>
+                    <svg id="about-separator" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="32px" fill="white">
+                        <path d="M395.33-120q-64 0-108.66-44.67Q242-209.33 242-273.33T286.67-382q44.66-44.67 108.66-44.67 26.34 0 47.84 7.17 21.5 7.17 38.83 20.17V-840h236v143.33H548.67v423.34q0 64-44.67 108.66Q459.33-120 395.33-120Z"/>
+                    </svg>
+                    </center>
+                    <p>Thank you for checking out this project! You can see more on my GitHub:</p>
+                    <ul id="github-links">
+                        <a id="link-project" class="link" href="https://github.com/purewave0/fortuna" target="_blank">
+                            <svg height="64" width="64" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M12 1C5.9225 1 1 5.9225 1 12C1 16.8675 4.14875 20.9787 8.52125 22.4362C9.07125 22.5325 9.2775 22.2025 9.2775 21.9137C9.2775 21.6525 9.26375 20.7862 9.26375 19.865C6.5 20.3737 5.785 19.1912 5.565 18.5725C5.44125 18.2562 4.905 17.28 4.4375 17.0187C4.0525 16.8125 3.5025 16.3037 4.42375 16.29C5.29 16.2762 5.90875 17.0875 6.115 17.4175C7.105 19.0812 8.68625 18.6137 9.31875 18.325C9.415 17.61 9.70375 17.1287 10.02 16.8537C7.5725 16.5787 5.015 15.63 5.015 11.4225C5.015 10.2262 5.44125 9.23625 6.1425 8.46625C6.0325 8.19125 5.6475 7.06375 6.2525 5.55125C6.2525 5.55125 7.17375 5.2625 9.2775 6.67875C10.1575 6.43125 11.0925 6.3075 12.0275 6.3075C12.9625 6.3075 13.8975 6.43125 14.7775 6.67875C16.8813 5.24875 17.8025 5.55125 17.8025 5.55125C18.4075 7.06375 18.0225 8.19125 17.9125 8.46625C18.6138 9.23625 19.04 10.2125 19.04 11.4225C19.04 15.6437 16.4688 16.5787 14.0213 16.8537C14.42 17.1975 14.7638 17.8575 14.7638 18.8887C14.7638 20.36 14.75 21.5425 14.75 21.9137C14.75 22.2025 14.9563 22.5462 15.5063 22.4362C19.8513 20.9787 23 16.8537 23 12C23 5.9225 18.0775 1 12 1Z"></path>
+                            </svg>
+
+                            <div class="link-info">
+                                <h2 id="project-name">fortuna</h2>
+                                <p>View on GitHub</p>
+                            </div>
+
+                            <div class="link-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></svg>
+                            </div>
+                        </a>
+
+                        <a id="link-profile" class="link" href="https://github.com/purewave0" target="_blank">
+                            <img src="https://avatars.githubusercontent.com/u/173008859?v=4" alt="Profile picture">
+
+                            <div class="link-info">
+                                <h2 id="profile-name">purewave0</h2>
+                                <p>GitHub profile</p>
+                            </div>
+
+                            <div class="link-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></svg>
+                            </div>
+                        </a>
+                    </ul>
+                </main>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../static/js/lib/micromodal.min.js"></script>
+    <script src="../static/js/index.js"></script>
+</body>
+
+</html>
