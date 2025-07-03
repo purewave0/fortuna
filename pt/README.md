@@ -1,6 +1,6 @@
 # fortuna
 
-Afinador por drone prático e de código-aberto.
+Afinador por drone prático e de código aberto.
 
 ![Print do fortuna](../fortuna.png "Print")
 
