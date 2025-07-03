@@ -153,33 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const Options = {
-        Mode: {
-            key: 'mode',
-            default: 'single-voice',
-        },
-        NoteLabels: {
-            key: 'note-labels',
-            default: 'c',
-        },
-        Octave: {
-            key: 'octave',
-            default: 4,
-        },
-        TuningSystem: {
-            key: 'tuning-system',
-            default: '12et',
-        },
-        TuningStandard: {
-            key: 'tuning-standard',
-            default: 440,
-        },
-        Transposition: {
-            key: 'transposition',
-            default: 0,
-        },
-        Theme: {
-            key: 'theme',
-            default: 'light',
+        keys: {
+            Mode:           'mode',
+            NoteLabels:     'note-labels',
+            Octave:         'octave',
+            TuningSystem:   'tuning-system',
+            TuningStandard: 'tuning-standard',
+            Transposition:  'transposition',
+            Theme:          'theme',
         },
 
         get(key) {
@@ -193,15 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // the system of spacing between the frequencies
     const tuningSystemOption = document.getElementById('tuning-system');
-    tuningSystemOption.value = (
-        Options.get(Options.TuningSystem.key)
-        || Options.TuningSystem.default
-    );
+    const storedTuningSystem = Options.get(Options.keys.TuningSystem);
+    if (storedTuningSystem) {
+        tuningSystemOption.value = storedTuningSystem;
+    }
     let currentTuningSystem = tuningSystemOption.value;
 
     tuningSystemOption.addEventListener('change', () => {
         currentTuningSystem = tuningSystemOption.value;
-        Options.set(Options.TuningSystem.key, currentTuningSystem);
+        Options.set(Options.keys.TuningSystem, currentTuningSystem);
 
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new tuning system
@@ -211,15 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // the frequency of A4 (A in the 4th octave, in scientific pitch notation)
     const tuningStandardOption = document.getElementById('tuning-standard');
-    tuningStandardOption.value = (
-        Options.get(Options.TuningStandard.key)
-        || Options.TuningStandard.default
-    );
+    const storedTuningStandard = Options.get(Options.keys.TuningStandard);
+    if (storedTuningStandard) {
+        tuningStandardOption.value = storedTuningStandard;
+    }
     let currentTuningStandard = Number(tuningStandardOption.value);
 
     tuningStandardOption.addEventListener('change', () => {
         currentTuningStandard = Number(tuningStandardOption.value);
-        Options.set(Options.TuningStandard.key, currentTuningStandard);
+        Options.set(Options.keys.TuningStandard, currentTuningStandard);
 
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new tuning standard
@@ -272,13 +253,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeKeys = [];
 
     const modeOption = document.getElementById('mode');
-    modeOption.value = (
-        Options.get(Options.Mode.key) || Options.Mode.default
-    );
+    const storedMode = Options.get(Options.keys.Mode);
+    if (storedMode) {
+        modeOption.value = storedMode;
+    }
     let currentMode = modeOption.value;
     modeOption.addEventListener('change', () => {
         currentMode = modeOption.value;
-        Options.set(Options.Mode.key, currentMode);
+        Options.set(Options.keys.Mode, currentMode);
 
         if (currentMode === 'single-voice' && activeKeys.length > 1) {
             // reverting to single-voice mode. turn off the 2nd key
@@ -290,14 +272,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const octaveOption = document.getElementById('octave');
-    octaveOption.value = (
-        Options.get(Options.Octave.key)
-        || Options.Octave.default
-    );
+    const storedOctave = Options.get(Options.keys.Octave);
+    if (storedOctave) {
+        octaveOption.value = storedOctave;
+    }
     let currentOctave = Number(octaveOption.value);
     octaveOption.addEventListener('change', () => {
         currentOctave = Number(octaveOption.value);
-        Options.set(Options.Octave.key, currentOctave);
+        Options.set(Options.keys.Octave, currentOctave);
 
         if (activeKeys.length > 0) {
             // replay the same note(s) but with the new octave
@@ -306,14 +288,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const transpositionOption = document.getElementById('transposition');
-    transpositionOption.value = (
-        Options.get(Options.Transposition.key)
-        || Options.Transposition.default
-    );
+    const storedTransposition = Options.get(Options.keys.Transposition);
+    if (storedTransposition) {
+        transpositionOption.value = storedTransposition;
+    }
     let semitonesToTranspose = Number(transpositionOption.value);
     transpositionOption.addEventListener('change', () => {
         semitonesToTranspose = Number(transpositionOption.value);
-        Options.set(Options.Transposition.key, semitonesToTranspose);
+        Options.set(Options.keys.Transposition, semitonesToTranspose);
 
 
         if (activeKeys.length > 0) {
@@ -455,10 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const noteLabelsOption = document.getElementById('note-labels');
-    noteLabelsOption.value = (
-        Options.get(Options.NoteLabels.key)
-        || Options.NoteLabels.default
-    );
+    const storedNoteLabels = Options.get(Options.keys.NoteLabels);
+    if (storedNoteLabels) {
+        noteLabelsOption.value = storedNoteLabels;
+    }
+    // apply changes right from the start
     if (noteLabelsOption.value === 'none') {
         clearNoteLabels();
     } else {
@@ -472,18 +455,18 @@ document.addEventListener('DOMContentLoaded', () => {
             setNoteLabels(noteLabels[noteLabelsOption.value]);
         }
 
-        Options.set(Options.NoteLabels.key, noteLabelsOption.value);
+        Options.set(Options.keys.NoteLabels, noteLabelsOption.value);
     });
 
 
     const themeOption = document.getElementById('theme');
-    themeOption.value = (
-        Options.get(Options.Theme.key)
-        || Options.Theme.default
-    );
+    const storedTheme = Options.get(Options.keys.Theme);
+    if (storedTheme) {
+        themeOption.value = storedTheme;
+    }
     themeOption.addEventListener('change', () => {
         document.body.dataset.theme = themeOption.value;
-        Options.set(Options.Theme.key, themeOption.value);
+        Options.set(Options.keys.Theme, themeOption.value);
     });
     themeOption.dispatchEvent(new Event('change'));
 
