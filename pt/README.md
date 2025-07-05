@@ -1,3 +1,5 @@
+[:uk: English](../README.md) | :brazil: **Português**
+
 # fortuna
 
 Afinador por drone prático e de código aberto.
@@ -12,6 +14,7 @@ Afinador por drone prático e de código aberto.
 - Possui atalhos de teclado
 - Inclui um breve guia de uso
 - Salva suas preferências localmente
+- Internacionalização: disponível em Português, [Inglês](../README.md)
 
 
 ## Opções

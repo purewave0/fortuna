@@ -1,3 +1,5 @@
+:uk: **English** | [:brazil: Português](pt/README.md)
+
 # fortuna
 
 Straightforward open-source drone tuner.
@@ -12,6 +14,7 @@ Straightforward open-source drone tuner.
 - Keyboard-friendly
 - Includes a quick how-to-use guide
 - Saves your preferences locally
+- Internationalisation: available in English, [Portuguese](pt/README.md)
 
 
 ## Options
