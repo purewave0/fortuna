@@ -51,6 +51,7 @@ body {
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 button {
@@ -74,7 +75,6 @@ ul {
     margin: 0;
     font-size: 20pt;
 }
-
 
 /* -- keyboard -- */
 
@@ -299,14 +299,14 @@ ul {
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+    font-size: 14pt;
 }
 
 #extras button {
+    font-size: inherit;
     color: inherit;
-    font-size: 14pt;
     background-color: transparent;
     border: none;
-    display: block;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -318,9 +318,9 @@ ul {
 
 #extras button svg {
     fill: var(--text-color);
+    flex-shrink: 0;
     transition: fill 0.1s ease;
 }
-
 
 #extras button:hover {
     background-color: var(--extras-button-hover-color);
@@ -331,6 +331,31 @@ ul {
     fill: var(--text-inverted-color);
 }
 
+#extra-spacer {
+    flex: 1;
+}
+
+#language-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#language-wrapper svg {
+    fill: var(--text-color);
+    position: absolute;
+    left: 16px;
+}
+
+#language-picker {
+    font-size: inherit;
+    color: inherit;
+    padding: 8px 16px 8px calc(16px + 24px + 4px);  /* left = padding+icon+spacing */
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    z-index: 1;
+}
 
 
 /* -- howto modal -- */

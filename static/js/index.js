@@ -643,7 +643,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // -- interface interaction --
 
-    const allOptions = document.querySelectorAll('.option select, .option input');
+    const allOptions = document.querySelectorAll(
+        '.option select, .option input, #language-picker'
+    );
 
     const hidePanel = document.getElementById('bottom-panel-hide');
     hidePanel.addEventListener('click', toggleBottomPanel);
@@ -676,5 +678,26 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         wasPreviouslyPrimaryColor = !wasPreviouslyPrimaryColor
+    });
+
+    const currentLanguage = document.documentElement.lang;
+    const languagePicker = document.getElementById('language-picker');
+    const currentLanguageOption = document.querySelector(
+        `#language-picker option[data-lang="${currentLanguage}"]`
+    );
+    // if the user comes back to this page later, the cache may cause the wrong
+    // language to be selected. always prevent this before leaving
+    window.addEventListener('beforeunload', () => {
+        languagePicker.value = currentLanguageOption.value;
+    });
+
+    languagePicker.addEventListener('change', () => {
+        const selected = languagePicker.selectedOptions[0];
+        if (selected.dataset.lang === currentLanguage) {
+            // picked the language we're already in
+            return;
+        }
+
+        document.location.href = languagePicker.value;
     });
 });

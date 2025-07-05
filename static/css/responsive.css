@@ -95,11 +95,28 @@
     #extras {
         flex-direction: row;
         column-gap: 8px;
+        font-size: 10pt;
     }
 
     #extras > button {
         flex: 1;
+        padding: 4px 8px;
     }
+
+    #extra-spacer {
+        display: none;
+    }
+
+    #language-wrapper svg {
+        fill: var(--text-color);
+        position: absolute;
+        left: 8px;
+    }
+
+    #language-picker {
+        padding: 4px 8px 4px calc(8px + 24px + 4px);  /* left: padding+icon+spacing */
+    }
+
 
     /* -- modals -- */
 
